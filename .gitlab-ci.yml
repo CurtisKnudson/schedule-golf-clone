@@ -1,0 +1,29 @@
+default:
+  image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - install
+  - test
+  - build
+
+install-dependencies:
+  interruptible: true
+  stage: install
+  script:
+    - yarn install
+
+ui-component-test:
+  interruptible: true
+  stage: test
+  script:
+    - yarn test
+
+build-frontend:
+  interruptible: true
+  stage: build
+  script:
+    - yarn build
