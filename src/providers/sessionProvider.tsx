@@ -26,10 +26,6 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
       setSession(localSession);
     }
   }
-  console.log({
-    text: 'I am in the session provider',
-    session,
-  });
 
   return (
     <SessionContext.Provider value={[session, setSession]}>

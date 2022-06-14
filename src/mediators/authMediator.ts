@@ -6,10 +6,10 @@ import { NewUser } from 'types/user';
 import { v4 } from 'uuid';
 
 export class AuthMediator implements AuthMediatorInterface {
-  private api: AuthGrpcAdapter;
+  private adapter: AuthGrpcAdapter;
 
-  constructor(api: AuthGrpcAdapter) {
-    this.api = api;
+  constructor(adapter: AuthGrpcAdapter) {
+    this.adapter = adapter;
   }
 
   async createNewUser(newUser: NewUser) {
@@ -17,7 +17,7 @@ export class AuthMediator implements AuthMediatorInterface {
       throw new Error('You must provide newUser credentials');
     }
     newUser.userId = v4();
-    const req = await this.api.createNewUser(newUser);
+    const req = await this.adapter.createNewUser(newUser);
 
     // TODO: Need Error Handling
     // What if the user authentication fails?
