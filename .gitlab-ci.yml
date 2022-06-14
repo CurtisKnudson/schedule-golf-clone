@@ -14,24 +14,15 @@ install-dependencies:
   stage: install
   script:
     - yarn install
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-end-to-end-tests/
 
 ui-component-test:
   interruptible: true
   stage: test
   script:
     - yarn test
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-end-to-end-tests/
 
 build-frontend:
   interruptible: true
   stage: build
   script:
     - yarn build
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-end-to-end-tests/
