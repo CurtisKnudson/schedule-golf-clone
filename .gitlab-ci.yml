@@ -1,20 +1,24 @@
+image: node:latest
+
 stages:
   - install
-  - build
   - test
+  - build
 
-install:
+install-dependencies:
+  interruptible: true
   stage: install
-  image: node:17
   script:
     - yarn install
 
 build-frontend:
+  interruptible: true
   stage: build
   script:
     - yarn build
 
 ui-component-test:
+  interruptible: true
   stage: test
   script:
     - yarn test
