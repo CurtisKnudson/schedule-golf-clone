@@ -1,0 +1,12 @@
+// Vitest Snapshot v1
+
+exports[`Auth Mediator > Create New User 1`] = `
+{
+  "companyName": "Riverbend Golf Community",
+  "email": "curtis@gmail.com",
+  "firstName": "Curtis",
+  "lastName": "Knudson",
+  "password": "testpassword",
+  "userId": Any<String>,
+}
+`;

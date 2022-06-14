@@ -7,6 +7,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Ignore Coverage folder. To view reports run 'Yarn Coverage'. 
+coverage
 node_modules
 dist
 dist-ssr

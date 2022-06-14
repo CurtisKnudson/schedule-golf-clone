@@ -25,5 +25,8 @@ describe('Auth Mediator', () => {
       email: 'curtis@gmail.com',
       password: 'testpassword',
     });
+    expect(req).toMatchSnapshot({
+      userId: expect.any(String),
+    });
   });
 });
