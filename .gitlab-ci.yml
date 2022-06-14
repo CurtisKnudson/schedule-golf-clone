@@ -17,6 +17,7 @@ install-dependencies:
   stage: install
   script:
     - yarn install
+    - yarn
 
 ui-component-test:
   interruptible: true
