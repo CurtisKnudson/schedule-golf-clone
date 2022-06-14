@@ -1,9 +1,19 @@
-# stages:
-#   - install
-#   - build
-#   - test
+stages:
+  - install
+  - build
+  - test
 
-# install:
-#   stage: install
-#   script
+install:
+  stage: install
+  script:
+    - yarn install
 
+build-frontend:
+  stage: build
+  script:
+    - yarn build
+
+ui-component-test:
+  stage: test
+  script:
+    - yarn test
