@@ -1,0 +1,24 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: gitlab.com/schedule-golf/nicklaus/backend
+    except:
+      - buf.build/googleapis/googleapis
+plugins:
+  - name: go
+    out: backend/gen/proto/go
+    opt: paths=source_relative
+  - name: go-grpc
+    out: backend/gen/proto/go
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  - remote: buf.build/grpc-ecosystem/plugins/grpc-gateway:v2.10.3-1
+    out: backend/gen/proto/go
+    opt:
+      - paths=source_relative
+  - remote: buf.build/timostamm/plugins/protobuf-ts:v2.2.2-1
+    out: src/gen/proto/ts
+    opt:
+      - long_type_number
