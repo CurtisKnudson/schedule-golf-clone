@@ -1,9 +1,5 @@
 default:
   image: node:latest
-    only:
-      variables:
-        - $CI_COMMIT_MESSAGE =~ /pipe/
-
 
 cache:
   paths:
