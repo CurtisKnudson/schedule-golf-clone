@@ -6,6 +6,7 @@ import { apiUrl } from 'constants/apiUrl';
 // Protos
 import { CreateNewUserRequest } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication';
 import { AuthenticatorServiceClient } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication.client';
+import Cookies from 'js-cookie';
 import { NewUser } from 'types/user';
 
 export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
@@ -20,6 +21,12 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
     };
 
     const res = await this.authenticator.createNewUser(req);
+
+    if (typeof res.headers.token !== 'string') {
+      throw new Error('Request Headers returned an invalid token');
+    }
+
+    Cookies.set('token', res.headers.token);
 
     return res.response;
   }

@@ -36,14 +36,8 @@ export const SignUp = () => {
   const handleSubmit = async () => {
     const req = await authMediator.createNewUser(newUser);
 
-    if (typeof req.headers.token !== 'string') {
-      throw new Error('Request Headers returned an invalid token');
-    }
-
-    Cookies.set('token', req.headers.token);
-
     const session: Session = {
-      user: req.response,
+      user: req,
       expiration: Date.now().toLocaleString(),
       isValidToken: true,
     };
