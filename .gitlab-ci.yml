@@ -1,6 +1,8 @@
 default:
   image: node:latest
-
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /runpipe/
 cache:
   paths:
     - node_modules/
