@@ -19,6 +19,8 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
       ...newUser,
     };
 
-    return await this.authenticator.createNewUser(req);
+    const res = await this.authenticator.createNewUser(req);
+
+    return res.response;
   }
 }

@@ -1,8 +1,8 @@
 // Node Modules
-// Providers
-import { useSession } from 'providers/sessionProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+// Providers
+import { useSession } from 'providers/sessionProvider';
 
 export const Home = () => {
   const navigate = useNavigate();

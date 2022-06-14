@@ -9,7 +9,5 @@ import {
 import { NewUser } from 'types/user';
 
 export interface AuthMediatorInterface {
-  createNewUser(
-    newUser: NewUser,
-  ): Promise<FinishedUnaryCall<CreateNewUserRequest, CreateNewUserResponse>>;
+  createNewUser(newUser: NewUser): Promise<CreateNewUserResponse>;
 }
