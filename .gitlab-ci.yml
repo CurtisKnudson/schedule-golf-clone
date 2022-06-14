@@ -1,5 +1,8 @@
 image: node:latest
 
+cach:
+  paths: -node_modules/
+
 stages:
   - install
   - test
@@ -11,14 +14,14 @@ install-dependencies:
   script:
     - yarn install
 
-build-frontend:
-  interruptible: true
-  stage: build
-  script:
-    - yarn build
-
 ui-component-test:
   interruptible: true
   stage: test
   script:
     - yarn test
+
+build-frontend:
+  interruptible: true
+  stage: build
+  script:
+    - yarn build
