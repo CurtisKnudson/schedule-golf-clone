@@ -5,6 +5,7 @@ stages:
 
 install:
   stage: install
+  image: node:17
   script:
     - yarn install
 
