@@ -1,0 +1,13 @@
+stages:
+  - build
+  - test
+
+build-frontend:
+  stage: build
+  script:
+    - yarn
+
+ui-component-test:
+  stage: test
+  script:
+    - yarn test
