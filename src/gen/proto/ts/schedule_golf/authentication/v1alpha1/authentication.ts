@@ -96,9 +96,9 @@ class CreateNewUserRequest$Type extends MessageType<CreateNewUserRequest> {
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateNewUserRequest): CreateNewUserRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
+        const message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
+            const [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
                 case /* string user_id */ 1:
                     message.userId = reader.string();
@@ -119,10 +119,10 @@ class CreateNewUserRequest$Type extends MessageType<CreateNewUserRequest> {
                     message.lastName = reader.string();
                     break;
                 default:
-                    let u = options.readUnknownField;
+                    const u = options.readUnknownField;
                     if (u === "throw")
                         throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
+                    const d = reader.skip(wireType);
                     if (u !== false)
                         (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
             }
@@ -148,7 +148,7 @@ class CreateNewUserRequest$Type extends MessageType<CreateNewUserRequest> {
         /* string last_name = 6; */
         if (message.lastName !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.lastName);
-        let u = options.writeUnknownFields;
+        const u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
         return writer;
@@ -177,9 +177,9 @@ class CreateNewUserResponse$Type extends MessageType<CreateNewUserResponse> {
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateNewUserResponse): CreateNewUserResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
+        const message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
+            const [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
                 case /* string user_id */ 1:
                     message.userId = reader.string();
@@ -197,10 +197,10 @@ class CreateNewUserResponse$Type extends MessageType<CreateNewUserResponse> {
                     message.lastName = reader.string();
                     break;
                 default:
-                    let u = options.readUnknownField;
+                    const u = options.readUnknownField;
                     if (u === "throw")
                         throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
+                    const d = reader.skip(wireType);
                     if (u !== false)
                         (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
             }
@@ -223,7 +223,7 @@ class CreateNewUserResponse$Type extends MessageType<CreateNewUserResponse> {
         /* string last_name = 5; */
         if (message.lastName !== "")
             writer.tag(5, WireType.LengthDelimited).string(message.lastName);
-        let u = options.writeUnknownFields;
+        const u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
         return writer;
@@ -249,7 +249,7 @@ class GetRefreshTokenRequest$Type extends MessageType<GetRefreshTokenRequest> {
         return target ?? this.create();
     }
     internalBinaryWrite(message: GetRefreshTokenRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        let u = options.writeUnknownFields;
+        const u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
         return writer;
@@ -275,7 +275,7 @@ class GetRefreshTokenResponse$Type extends MessageType<GetRefreshTokenResponse> 
         return target ?? this.create();
     }
     internalBinaryWrite(message: GetRefreshTokenResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        let u = options.writeUnknownFields;
+        const u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
         return writer;

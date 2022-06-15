@@ -1,9 +1,9 @@
 // Node Modules
-import { describe, it, expect } from 'vitest';
 // Mocks
 import { AuthGrpcAdapterMock } from 'adapters/__mocks__/authGrpcAdapter';
 // Mediators
 import { AuthMediator } from 'mediators/authMediator';
+import { describe, expect, it } from 'vitest';
 
 describe('Auth Mediator', () => {
   const adapter = new AuthGrpcAdapterMock();

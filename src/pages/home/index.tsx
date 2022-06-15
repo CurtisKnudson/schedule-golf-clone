@@ -1,8 +1,8 @@
 // Node Modules
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 // Providers
 import { useSession } from 'providers/sessionProvider';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -35,7 +35,13 @@ export const Home = () => {
           Protected Route
         </Link>
         {session.user ? (
-          <div className="mx-4 cursor-pointer" onClick={handleSignout}>
+          <div
+            role="button"
+            className="mx-4 cursor-pointer"
+            tabIndex={0}
+            onClick={handleSignout}
+            onKeyDown={handleSignout}
+          >
             SignOut
           </div>
         ) : null}

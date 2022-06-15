@@ -24,5 +24,7 @@ export class AuthMediator implements AuthMediatorInterface {
     return req;
   }
 
-  dispose() {}
+  dispose() {
+    return;
+  }
 }
