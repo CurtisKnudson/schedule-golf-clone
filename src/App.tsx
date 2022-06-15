@@ -1,9 +1,9 @@
 // Node Modules
-import { Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 // CSS
 import 'react-toastify/dist/ReactToastify.css';
 
+import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 // // Components
 import { appRoutes } from 'routes';
 

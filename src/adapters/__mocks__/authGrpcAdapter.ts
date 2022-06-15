@@ -1,12 +1,9 @@
 // Adapter
 import { AuthGrpcAdapter as AuthGrpcAdapterInterface } from 'adapters/types/authGrpcAdapter';
-
-// Types
-import { NewUser } from 'types/user';
-
 // Protos
 import { CreateNewUserRequest } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication';
-import { FinishedUnaryCall } from '@protobuf-ts/runtime-rpc';
+// Types
+import { NewUser } from 'types/user';
 
 export class AuthGrpcAdapterMock implements AuthGrpcAdapterInterface {
   async createNewUser(newUser: NewUser) {
