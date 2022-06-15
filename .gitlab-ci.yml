@@ -6,24 +6,38 @@ cache:
     - node_modules/
 
 stages:
-  - install
-  - test
-  - build
+  - Install
+  - Lint
+  - Format
+  - Test
+  - Build
 
-install-dependencies:
+dependencies-ui:
   interruptible: true
-  stage: install
+  stage: Install
   script:
     - yarn install
 
-ui-component-test:
+lint-ui:
   interruptible: true
-  stage: test
+  stage: Lint
+  script:
+    - yarn lint
+
+format-ui:
+  interruptible: true
+  stage: Format
+  script:
+    - yarn format
+
+unit-test-ui:
+  interruptible: true
+  stage: Test
   script:
     - yarn test
 
-build-frontend:
+build-ui:
   interruptible: true
-  stage: build
+  stage: Build
   script:
     - yarn build
