@@ -29,4 +29,14 @@ describe('Auth Mediator', () => {
       userId: expect.any(String),
     });
   });
+
+  it('UserLogin', async () => {
+    const req = await authMediator.userLogin({
+      email: 'curtis@gmail.com',
+      password: 'thisisapassword',
+    });
+
+    expect(req).toBeTruthy();
+    expect(req).toMatchSnapshot();
+  });
 });

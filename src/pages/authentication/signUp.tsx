@@ -1,19 +1,16 @@
 // Node Modules
-import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 // Provider
 import { useAuthMediator } from 'providers/authMediatorProvider';
 import { useSession } from 'providers/sessionProvider';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Session } from 'types/session';
 // Types
 import { NewUser } from 'types/user';
-// Utils
-import { setLocalStorageSession } from 'utils/handleLocalStorage';
+import { Session } from 'types/session';
 
 export const SignUp = () => {
   const authMediator = useAuthMediator();
-  const [, setSession] = useSession();
+  const [session, setSessionEverywhere] = useSession();
 
   const [newUser, setNewUser] = useState<NewUser>({
     userId: '',
@@ -42,15 +39,15 @@ export const SignUp = () => {
       isValidToken: true,
     };
 
-    setLocalStorageSession(session);
-    setSession(session);
+    setSessionEverywhere(session);
   };
+
+  if (session.user && session.isValidToken) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <div className="bg-gray-50">
-      <div>
-        <div>Token: {Cookies.get('token')}</div>
-      </div>
       <div>
         <Link to="/">Back to home</Link>
       </div>

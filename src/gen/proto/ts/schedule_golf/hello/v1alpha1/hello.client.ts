@@ -3,13 +3,12 @@
 // tslint:disable
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
-import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
-import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
+import { GreeterService } from "./hello";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
-
 import type { SayHelloResponse } from "./hello";
 import type { SayHelloRequest } from "./hello";
-import { GreeterService } from "./hello";
+import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
+import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
  * The greeter service definition.
  *

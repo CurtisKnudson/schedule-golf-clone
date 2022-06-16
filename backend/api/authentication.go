@@ -2,6 +2,8 @@ package api
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"log"
 	"time"
 
@@ -15,12 +17,7 @@ import (
 )
 
 type User struct {
-	user_id      string
-	first_name   string
-	last_name    string
-	company_name string
-	email        string
-	hash         string
+	user_id, first_name, last_name, company_name, email, hash string
 }
 
 type Claims struct {
@@ -32,7 +29,6 @@ func generateJwt(email string) string {
 	var jwtKey = []byte(m.MustGetenv("JWT"))
 
 	expirationTime := time.Now().Add(5 * time.Minute)
-	log.Print("test")
 
 	claims := &Claims{
 		email: email,
@@ -46,7 +42,7 @@ func generateJwt(email string) string {
 	tokenString, err := token.SignedString(jwtKey)
 
 	if err != nil {
-		log.Fatalf("There was an error signing JWT: %v", err)
+		fmt.Printf("There was an error signing JWT: %v", err)
 	}
 
 	return tokenString
@@ -67,12 +63,25 @@ func hashAndSalt(pwd []byte) string {
 	return string(hash)
 }
 
+func comparePasswords(hashedPwd string, plainPwd []byte) bool {
+	// Since we'll be getting the hashed password from the DB it
+	// will be a string so we'll need to convert it to a byte slice
+	byteHash := []byte(hashedPwd)
+	err := bcrypt.CompareHashAndPassword(byteHash, plainPwd)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	return true
+}
+
 func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *authv1.CreateNewUserRequest) (*authv1.CreateNewUserResponse, error) {
 
 	db, err := m.InitTCPConnectionPool()
 
 	if err != nil {
-		log.Fatalf("There was an error initializing database connection in CreateNewUser %v\n", err)
+		fmt.Printf("There was an error initializing database connection in CreateNewUser %v\n", err)
 	}
 
 	// ON another ticket outside the scope of establishing a session
@@ -98,7 +107,7 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 
 	createTableQuery := `CREATE TABLE IF NOT EXISTS schedule_golf.schedule_golf_users
 	(
-		id INT PRIMARY KEY AUTO_INCREMENT,
+		sql_id INT PRIMARY KEY AUTO_INCREMENT INVISIBLE,
 		user_id VARCHAR(36),
 		company_name VARCHAR(255),
 	 	first_name VARCHAR(255),
@@ -110,7 +119,7 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 	res, err := db.Query(createTableQuery)
 
 	if err != nil {
-		log.Fatalf("There was an error creating a table in the database %v", err)
+		fmt.Printf("There was an error calling createTableQuery: %v", err)
 	}
 
 	defer res.Close()
@@ -122,13 +131,10 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 	res1, err := db.Query(insertUserQuery, newUser.user_id, newUser.company_name, newUser.first_name, newUser.last_name, newUser.email, newUser.hash)
 
 	if err != nil {
-		log.Fatalf("There was an erory querying a new user to the database %v", err)
+		fmt.Printf("There was an erory querying a new user to the database %v", err)
 	}
 
 	defer res1.Close()
-
-	// Print Request to verify it exists
-	log.Printf("Received: %v, %v, %v, %v, %v /n", in.GetCompanyName(), in.GetEmail(), in.GetFirstName(), in.GetLastName(), newUser.hash)
 
 	// Sent JWT with Creation of User
 	header := metadata.Pairs("token", generateJwt((newUser.email)))
@@ -141,5 +147,44 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 		FirstName:   in.FirstName,
 		LastName:    in.LastName,
 		Email:       in.Email,
+	}, nil
+}
+
+func (s *AuthenticatorServiceServer) UserLogin(ctx context.Context, in *authv1.UserLoginRequest) (*authv1.UserLoginResponse, error) {
+
+	in.GetEmail()
+
+	db, err := m.InitTCPConnectionPool()
+
+	if err != nil {
+		fmt.Printf("There was an error initializing database connection in CreateNewUser %v\n", err)
+	}
+
+	userQuery := `SELECT * FROM schedule_golf.schedule_golf_users WHERE email = ?`
+
+	var user User
+
+	err1 := db.QueryRow(userQuery, in.GetEmail()).Scan(&user.user_id, &user.company_name, &user.first_name, &user.last_name, &user.email, &user.hash)
+
+	if err1 != nil {
+		fmt.Printf("There was an error querying userQuery %v", err1.Error())
+	}
+
+	res := comparePasswords(user.hash, []byte(in.Password))
+
+	if !res {
+		return &authv1.UserLoginResponse{}, errors.New("invalid credentials")
+	}
+
+	header := metadata.Pairs("token", generateJwt((user.email)))
+
+	grpc.SendHeader(ctx, header)
+
+	return &authv1.UserLoginResponse{
+		UserId:      user.user_id,
+		CompanyName: user.company_name,
+		FirstName:   user.first_name,
+		LastName:    user.last_name,
+		Email:       user.email,
 	}, nil
 }
