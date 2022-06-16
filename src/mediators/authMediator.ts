@@ -32,6 +32,12 @@ export class AuthMediator implements AuthMediatorInterface {
     if (!userLoginCredentials) {
       throw new Error('You must provide login credentials to login');
     }
+    if (!userLoginCredentials.email) {
+      throw new Error('You must provide an email to login');
+    }
+    if (!userLoginCredentials.password) {
+      throw new Error('You must provide a password to login');
+    }
 
     const req = await this.adapter.userLogin(userLoginCredentials);
 

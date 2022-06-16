@@ -10,3 +10,13 @@ exports[`Auth Mediator > Create New User 1`] = `
   "userId": Any<String>,
 }
 `;
+
+exports[`Auth Mediator > UserLogin 1`] = `
+{
+  "companyName": "Riverbend Golf Community",
+  "email": "curtis@gmail.com",
+  "firstName": "Curtis",
+  "lastName": "Knudson",
+  "userId": "123456789",
+}
+`;
