@@ -1,10 +1,11 @@
 // Node
-import { RequireAuth } from 'layout/requireAuth';
+import { Outlet } from 'react-router-dom';
+// Pages
 import { Login } from 'pages/authentication/login';
 import { SignUp } from 'pages/authentication/signUp';
-// Components
+import { Dashboard } from 'pages/dashboard';
 import { Home } from 'pages/home';
-import { Outlet } from 'react-router-dom';
+
 // Types
 import { Routes } from 'types/routes';
 
@@ -42,11 +43,7 @@ export const appRoutes: Routes[] = [
   {
     id: 5,
     name: 'protected',
-    path: '/protected',
-    element: (
-      <RequireAuth>
-        <div>This is a protected route</div>
-      </RequireAuth>
-    ),
+    path: '/dashboard',
+    element: <Dashboard />,
   },
 ];

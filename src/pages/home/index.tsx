@@ -1,21 +1,15 @@
 // Node Modules
-// Providers
-import { useSession } from 'providers/sessionProvider';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+// Providers
+import { useSession } from 'providers/sessionProvider';
+
 export const Home = () => {
-  const navigate = useNavigate();
-  const [session, setSession] = useSession();
+  const [session, setSessionEverywhere] = useSession();
 
   const handleSignout = () => {
-    setSession({
-      user: null,
-      expiration: null,
-      isValidToken: false,
-    });
-    window.localStorage.removeItem('session');
-    navigate('/');
+    setSessionEverywhere();
     toast("You've been signed out");
   };
 
@@ -31,8 +25,8 @@ export const Home = () => {
         <Link className="mx-4" to="/login">
           Login
         </Link>
-        <Link className="mx-4" to="/protected">
-          Protected Route
+        <Link className="mx-4" to="/dashboard">
+          Dashboard
         </Link>
         {session.user ? (
           <div

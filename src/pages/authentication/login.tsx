@@ -1,14 +1,19 @@
 // Node Modules
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-export interface LoginCreds {
-  email: string;
-  password: string;
-}
+import { Link, Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+// Types
+import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
+import { Session } from 'types/session';
+// Providers
+import { useSession } from 'providers/sessionProvider';
+// Mediators
+import { useAuthMediator } from 'providers/authMediatorProvider';
 
 export const Login = () => {
-  const [login, setLogin] = useState<LoginCreds>({
+  const authMediator = useAuthMediator();
+  const [session, setSessionEverywhere] = useSession();
+  const [userLoginInputs, setUserLoginInputs] = useState<LoginCredentials>({
     email: '',
     password: '',
   });
@@ -16,11 +21,41 @@ export const Login = () => {
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
-    setLogin({
-      ...login,
+    setUserLoginInputs({
+      ...userLoginInputs,
       [name]: value,
     });
   };
+
+  const handleLogin = async () => {
+    const { email, password } = userLoginInputs;
+    if (!email) {
+      const warning = 'You must provide a valid email address to login';
+      toast.error(warning);
+      throw new Error(warning);
+    }
+    if (!password) {
+      const warning = 'You must provide a valid password to login';
+      toast.error(warning);
+      throw new Error(warning);
+    }
+    const req = await authMediator.userLogin(userLoginInputs).catch(() => {
+      toast.error('Invalid Credentials');
+      throw new Error('Invalid Credentials');
+    });
+
+    const session: Session = {
+      user: req,
+      expiration: Date.now().toLocaleString(),
+      isValidToken: true,
+    };
+
+    setSessionEverywhere(session);
+  };
+
+  if (session.user && session.isValidToken) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <div className="bg-gray-50">
@@ -37,7 +72,7 @@ export const Login = () => {
                 type="email"
                 className="h-12 px-2 w-full border rounded my-1"
                 aria-label="Email"
-                value={login.email}
+                value={userLoginInputs.email}
                 onChange={handleLoginChange}
               />
               <input
@@ -46,10 +81,13 @@ export const Login = () => {
                 placeholder="Password"
                 className="h-12 px-2 w-full border rounded my-1"
                 aria-label="Password"
-                value={login.password}
+                value={userLoginInputs.password}
                 onChange={handleLoginChange}
               />
-              <button className="w-full h-12 border rounded bg-green-600 text-white my-2">
+              <button
+                className="w-full h-12 border rounded bg-green-600 text-white my-2"
+                onClick={handleLogin}
+              >
                 Log In
               </button>
               <div className="my-2 text-sm text-green-600">Forgot Password?</div>

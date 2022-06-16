@@ -4,8 +4,21 @@ package schedule_golf.authentication.v1alpha1;
 import "google/api/annotations.proto";
 
 service AuthenticatorService {
+    rpc UserLogin (UserLoginRequest) returns (UserLoginResponse);
     rpc CreateNewUser (CreateNewUserRequest) returns (CreateNewUserResponse);
-    rpc GetRefreshToken (GetRefreshTokenRequest) returns (GetRefreshTokenResponse);
+}
+
+message UserLoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message UserLoginResponse {
+    string user_id = 1;
+    string company_name = 2;
+    string email = 3;
+    string first_name = 4;
+    string last_name = 5;
 }
 
 message CreateNewUserRequest {
@@ -25,6 +38,3 @@ message CreateNewUserResponse {
     string last_name = 5;
 }
 
-message GetRefreshTokenRequest {}
-
-message GetRefreshTokenResponse{}
