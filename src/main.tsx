@@ -15,11 +15,11 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <SessionProvider>
-        <AuthMediatorProvider>
+      <AuthMediatorProvider>
+        <SessionProvider>
           <App />
-        </AuthMediatorProvider>
-      </SessionProvider>
+        </SessionProvider>
+      </AuthMediatorProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

@@ -19,12 +19,7 @@ export const Home = () => {
         <Link className="mx-4" to="/">
           Home
         </Link>
-        <Link className="mx-4" to="/signup">
-          Signup
-        </Link>
-        <Link className="mx-4" to="/login">
-          Login
-        </Link>
+
         <Link className="mx-4" to="/dashboard">
           Dashboard
         </Link>
@@ -34,11 +29,25 @@ export const Home = () => {
             className="mx-4 cursor-pointer"
             tabIndex={0}
             onClick={handleSignout}
-            onKeyDown={handleSignout}
+            onKeyDown={(e) => {
+              if (e.code != 'Enter') {
+                return;
+              }
+              handleSignout();
+            }}
           >
             SignOut
           </div>
-        ) : null}
+        ) : (
+          <div>
+            <Link className="mx-4" to="/signup">
+              Signup
+            </Link>
+            <Link className="mx-4" to="/login">
+              Login
+            </Link>
+          </div>
+        )}
       </nav>
 
       <div className="mx-8">Generic Marketing Page</div>

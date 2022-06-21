@@ -37,4 +37,10 @@ export class AuthGrpcAdapterMock implements AuthGrpcAdapterInterface {
     };
     return Promise.resolve(res);
   }
+
+  async userTokenRefresh() {
+    return Promise.resolve({
+      isAuthenticated: true,
+    });
+  }
 }

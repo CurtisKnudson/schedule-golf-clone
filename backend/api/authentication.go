@@ -10,10 +10,12 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	authv1 "gitlab.com/schedule-golf/nicklaus/backend/gen/proto/go/schedule_golf/authentication/v1alpha1"
 	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/genproto/googleapis/rpc/code"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
 	m "gitlab.com/schedule-golf/nicklaus/backend/middleware"
+	"google.golang.org/genproto/googleapis/rpc/status"
 )
 
 type User struct {
@@ -25,7 +27,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func generateJwt(email string) string {
+func generateJwt(email string) (string, time.Time) {
 	var jwtKey = []byte(m.MustGetenv("JWT"))
 
 	expirationTime := time.Now().Add(5 * time.Minute)
@@ -45,7 +47,7 @@ func generateJwt(email string) string {
 		fmt.Printf("There was an error signing JWT: %v", err)
 	}
 
-	return tokenString
+	return tokenString, expirationTime
 }
 
 func hashAndSalt(pwd []byte) string {
@@ -136,10 +138,13 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 
 	defer res1.Close()
 
+	jwt, expirationTime := generateJwt(newUser.email)
 	// Sent JWT with Creation of User
-	header := metadata.Pairs("token", generateJwt((newUser.email)))
+	tokenHeader := metadata.Pairs("token", jwt)
+	expirationHeader := metadata.Pairs("expiration", expirationTime.String())
 
-	grpc.SendHeader(ctx, header)
+	grpc.SendHeader(ctx, tokenHeader)
+	grpc.SendHeader(ctx, expirationHeader)
 
 	return &authv1.CreateNewUserResponse{
 		UserId:      in.UserId,
@@ -175,10 +180,14 @@ func (s *AuthenticatorServiceServer) UserLogin(ctx context.Context, in *authv1.U
 	if !res {
 		return &authv1.UserLoginResponse{}, errors.New("invalid credentials")
 	}
+	jwt, expirationTime := generateJwt(user.email)
+	// Need to update Proto to pass JWT as a value and stop using headers to pass data. Will be TLS encrypted.
+	// Sent JWT with Creation of User
+	tokenHeader := metadata.Pairs("token", jwt)
+	expirationHeader := metadata.Pairs("expiration", expirationTime.String())
 
-	header := metadata.Pairs("token", generateJwt((user.email)))
-
-	grpc.SendHeader(ctx, header)
+	grpc.SendHeader(ctx, tokenHeader)
+	grpc.SendHeader(ctx, expirationHeader)
 
 	return &authv1.UserLoginResponse{
 		UserId:      user.user_id,
@@ -186,5 +195,75 @@ func (s *AuthenticatorServiceServer) UserLogin(ctx context.Context, in *authv1.U
 		FirstName:   user.first_name,
 		LastName:    user.last_name,
 		Email:       user.email,
+	}, nil
+}
+
+func (s *AuthenticatorServiceServer) UserTokenRefresh(ctx context.Context, in *authv1.UserTokenRefreshRequest) (*authv1.UserTokenRefreshResponse, error) {
+
+	var jwtKey = []byte(m.MustGetenv("JWT"))
+
+	// Need tokenString name later in function
+	tknStr := in.GetJwt()
+
+	claims := &Claims{}
+
+	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if !tkn.Valid {
+		fmt.Printf("Invalid Token %v", ctx)
+		return &authv1.UserTokenRefreshResponse{
+			Status: &status.Status{
+				Code:    int32(code.Code_UNAUTHENTICATED),
+				Message: "Invalid Token",
+			},
+		}, nil
+	}
+
+	if err != nil {
+		fmt.Printf("There was en error parsing JWT %v", ctx)
+		return &authv1.UserTokenRefreshResponse{
+			Status: &status.Status{
+				Code:    int32(code.Code_INTERNAL),
+				Message: "jwt.ParseWithClaims threw an error",
+			},
+		}, nil
+
+	}
+
+	if time.Until(time.Unix(claims.ExpiresAt, 0)) > 30*time.Second {
+		return &authv1.UserTokenRefreshResponse{
+			Status: &status.Status{
+				Code:    int32(code.Code_CANCELLED),
+				Message: "JWT does not need refreshed",
+			},
+		}, nil
+	}
+
+	expirationTime := time.Now().Add(5 * time.Minute)
+
+	claims.ExpiresAt = expirationTime.Unix()
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	tokenString, err := token.SignedString(jwtKey)
+
+	if err != nil {
+		log.Printf("There was an error signing web token %v", ctx)
+		return &authv1.UserTokenRefreshResponse{
+			Status: &status.Status{
+				Code:    int32(code.Code_INTERNAL),
+				Message: "token.SignedString threw an error",
+			},
+		}, nil
+	}
+
+	return &authv1.UserTokenRefreshResponse{
+		Jwt:        tokenString,
+		Expiration: expirationTime.String(),
+		Status: &status.Status{
+			Code: int32(code.Code_OK),
+		},
 	}, nil
 }

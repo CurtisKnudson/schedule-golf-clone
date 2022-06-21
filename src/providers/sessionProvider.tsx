@@ -8,6 +8,8 @@ import makeContextHook from 'hooks/makeContextHooks';
 import { Session } from 'types/session';
 // Utils
 import { getLocalStorageSession, setLocalStorageSession } from 'utils/handleLocalStorage';
+// Providers
+import { useAuthMediator } from 'providers/authMediatorProvider';
 
 export const SessionContext = createContext<
   [Session, (sessionParam?: Session) => void] | undefined
@@ -17,6 +19,7 @@ export const useSession = makeContextHook(SessionContext);
 
 const SessionProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
+  const authMediator = useAuthMediator();
   const [session, setSession] = useState<Session>({
     user: null,
     expiration: null,
@@ -44,6 +47,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     setSession(sessionParam);
     setLocalStorageSession(sessionParam);
     navigate('/dashboard');
+    window.location.reload();
   };
 
   if (!session.user) {
@@ -53,8 +57,31 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const handleRefreshToken = async () => {
+    const { isAuthenticated } = await authMediator.userRefreshToken();
+    if (!isAuthenticated) {
+      // If user no longer has valid JWT, sign user out
+      setSessionEverywhere();
+    }
+  };
+
   return (
     <SessionContext.Provider value={[session, setSessionEverywhere]}>
+      <div
+        className="text-green-400 fixed top-0 right-0 m-8 cursor-pointer"
+        onClick={handleRefreshToken}
+        onKeyDown={(e) => {
+          if (e.code != 'Enter') {
+            return;
+          }
+          handleRefreshToken();
+        }}
+        role="button"
+        aria-label="Handle refresh"
+        tabIndex={0}
+      >
+        Refresh Auth Token
+      </div>
       {children}
     </SessionContext.Provider>
   );
