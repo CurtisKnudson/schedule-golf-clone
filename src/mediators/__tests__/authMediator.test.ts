@@ -39,4 +39,12 @@ describe('Auth Mediator', () => {
     expect(req).toBeTruthy();
     expect(req).toMatchSnapshot();
   });
+
+  it('UserRefreshToken', async () => {
+    const req = await authMediator.userRefreshToken();
+
+    const { isAuthenticated } = req;
+
+    expect(isAuthenticated).toBeTruthy();
+  });
 });
