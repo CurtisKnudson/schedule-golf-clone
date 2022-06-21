@@ -43,7 +43,9 @@ export class AuthMediator implements AuthMediatorInterface {
 
     return req;
   }
-
+  async userRefreshToken() {
+    return await this.adapter.userTokenRefresh();
+  }
   dispose() {
     return;
   }

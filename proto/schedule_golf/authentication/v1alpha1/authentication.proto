@@ -1,11 +1,12 @@
 syntax = "proto3";
 package schedule_golf.authentication.v1alpha1;
 
-import "google/api/annotations.proto";
+import "google/rpc/status.proto";
 
 service AuthenticatorService {
     rpc UserLogin (UserLoginRequest) returns (UserLoginResponse);
     rpc CreateNewUser (CreateNewUserRequest) returns (CreateNewUserResponse);
+    rpc UserTokenRefresh (UserTokenRefreshRequest) returns (UserTokenRefreshResponse);
 }
 
 message UserLoginRequest {
@@ -36,5 +37,15 @@ message CreateNewUserResponse {
     string email = 3;
     string first_name = 4;
     string last_name = 5;
+}
+
+message UserTokenRefreshRequest {
+    string jwt = 1;
+}
+
+message UserTokenRefreshResponse{
+    string jwt = 1;
+    string expiration = 2;
+    google.rpc.Status status = 3;
 }
 

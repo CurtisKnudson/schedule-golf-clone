@@ -1,5 +1,4 @@
 // Node Modules
-import Cookies from 'js-cookie';
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 // Types
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
@@ -11,9 +10,12 @@ import { apiUrl } from 'constants/apiUrl';
 import {
   CreateNewUserRequest,
   UserLoginRequest,
+  UserTokenRefreshRequest,
 } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication';
 import { AuthenticatorServiceClient } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication.client';
-import { setCookie } from 'utils/setCookie';
+// Utils
+import { getCookie, setCookie } from 'utils/cookieHelper';
+import { GrpcCode } from 'types/code';
 
 export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
   transport = new GrpcWebFetchTransport({
@@ -32,8 +34,8 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
       throw new Error('Request Headers returned an invalid token');
     }
 
-    Cookies.remove('token');
-    Cookies.set('token', res.headers.token);
+    // Need to set a cookie that expires based on the return value in the metadata
+    setCookie('token', res.headers.token);
 
     return res.response;
   }
@@ -52,5 +54,39 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
     setCookie('token', res.headers.token);
 
     return res.response;
+  }
+
+  async userTokenRefresh() {
+    const jwt = getCookie('token');
+
+    if (!jwt) {
+      throw new Error('userTokenRefresh did not receive a webtoken');
+    }
+
+    const req: UserTokenRefreshRequest = {
+      jwt,
+    };
+
+    const res = await this.authenticator.userTokenRefresh(req);
+
+    const { status } = res.response;
+
+    const refreshResponse = {
+      isAuthenticated: false,
+    };
+
+    // If JWT is succesfully refreshed, update the cookie
+    if (status?.code === GrpcCode.OK) {
+      setCookie('token', res.response.jwt, res.response.expiration);
+      refreshResponse.isAuthenticated = true;
+      return refreshResponse;
+    }
+    // If the JWT is cancelled by the API, leave everything as it is. This means that the JWT is still valid
+    if (status?.code === GrpcCode.CANCELLED) {
+      refreshResponse.isAuthenticated = true;
+      return refreshResponse;
+    }
+
+    return refreshResponse;
   }
 }
