@@ -183,11 +183,9 @@ func (s *AuthenticatorServiceServer) UserLogin(ctx context.Context, in *authv1.U
 	jwt, expirationTime := generateJwt(user.email)
 	// Need to update Proto to pass JWT as a value and stop using headers to pass data. Will be TLS encrypted.
 	// Sent JWT with Creation of User
-	tokenHeader := metadata.Pairs("token", jwt)
-	expirationHeader := metadata.Pairs("expiration", expirationTime.String())
+	headers := metadata.Pairs("token", jwt, "expiration", expirationTime.String())
 
-	grpc.SendHeader(ctx, tokenHeader)
-	grpc.SendHeader(ctx, expirationHeader)
+	grpc.SendHeader(ctx, headers)
 
 	return &authv1.UserLoginResponse{
 		UserId:      user.user_id,

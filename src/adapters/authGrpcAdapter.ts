@@ -47,6 +47,12 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
 
     const res = await this.authenticator.userLogin(req);
 
+    console.log({
+      headers: res.headers,
+      expiration: res.headers.expiration,
+      token: res.headers.token,
+    });
+
     if (typeof res.headers.token !== 'string') {
       throw new Error('Request Headers returned an invalid token');
     }

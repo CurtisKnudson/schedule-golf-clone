@@ -47,7 +47,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     setSession(sessionParam);
     setLocalStorageSession(sessionParam);
     navigate('/dashboard');
-    window.location.reload();
+    // window.location.reload();
   };
 
   if (!session.user) {
