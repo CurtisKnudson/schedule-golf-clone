@@ -30,14 +30,20 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
 
     const res = await this.authenticator.createNewUser(req);
 
-    if (typeof res.headers.token !== 'string') {
-      throw new Error('Request Headers returned an invalid token');
+    if (
+      typeof res.headers.token !== 'string' ||
+      typeof res.headers.expiration !== 'string'
+    ) {
+      throw new Error('Request Headers returned an invalid token or expiration');
     }
 
     // Need to set a cookie that expires based on the return value in the metadata
-    setCookie('token', res.headers.token);
+    setCookie('token', res.headers.token, res.headers.expiration);
 
-    return res.response;
+    return {
+      res: res.response,
+      expiration: res.headers.expiration,
+    };
   }
 
   async userLogin(userLoginCredentials: LoginCredentials) {
@@ -47,19 +53,19 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
 
     const res = await this.authenticator.userLogin(req);
 
-    console.log({
-      headers: res.headers,
-      expiration: res.headers.expiration,
-      token: res.headers.token,
-    });
-
-    if (typeof res.headers.token !== 'string') {
-      throw new Error('Request Headers returned an invalid token');
+    if (
+      typeof res.headers.token !== 'string' ||
+      typeof res.headers.expiration !== 'string'
+    ) {
+      throw new Error('Request Headers returned an invalid token or expiration');
     }
 
-    setCookie('token', res.headers.token);
+    setCookie('token', res.headers.token, res.headers.expiration);
 
-    return res.response;
+    return {
+      res: res.response,
+      expiration: res.headers.expiration,
+    };
   }
 
   async userTokenRefresh() {

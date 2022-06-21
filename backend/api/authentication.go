@@ -140,11 +140,9 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 
 	jwt, expirationTime := generateJwt(newUser.email)
 	// Sent JWT with Creation of User
-	tokenHeader := metadata.Pairs("token", jwt)
-	expirationHeader := metadata.Pairs("expiration", expirationTime.String())
+	headers := metadata.Pairs("token", jwt, "expiration", expirationTime.String())
 
-	grpc.SendHeader(ctx, tokenHeader)
-	grpc.SendHeader(ctx, expirationHeader)
+	grpc.SendHeader(ctx, headers)
 
 	return &authv1.CreateNewUserResponse{
 		UserId:      in.UserId,
@@ -210,7 +208,7 @@ func (s *AuthenticatorServiceServer) UserTokenRefresh(ctx context.Context, in *a
 	})
 
 	if !tkn.Valid {
-		fmt.Printf("Invalid Token %v", ctx)
+		fmt.Printf("Invalid Token")
 		return &authv1.UserTokenRefreshResponse{
 			Status: &status.Status{
 				Code:    int32(code.Code_UNAUTHENTICATED),

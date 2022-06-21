@@ -9,8 +9,12 @@ import { NewUser } from 'types/user';
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
 
 export interface AuthMediatorInterface {
-  createNewUser(newUser: NewUser): Promise<CreateNewUserResponse>;
-  userLogin(userLoginCredentials: LoginCredentials): Promise<UserLoginResponse>;
+  createNewUser(
+    newUser: NewUser,
+  ): Promise<{ res: CreateNewUserResponse; expiration: string }>;
+  userLogin(
+    userLoginCredentials: LoginCredentials,
+  ): Promise<{ res: UserLoginResponse; expiration: string }>;
   userRefreshToken(): Promise<{
     isAuthenticated: boolean;
   }>;

@@ -33,9 +33,11 @@ export const SignUp = () => {
   const handleSubmit = async () => {
     const req = await authMediator.createNewUser(newUser);
 
+    const { res, expiration } = req;
+
     const session: Session = {
-      user: req,
-      expiration: Date.now().toLocaleString(),
+      user: res,
+      expiration,
       isValidToken: true,
     };
 

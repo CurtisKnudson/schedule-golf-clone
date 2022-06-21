@@ -47,7 +47,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     setSession(sessionParam);
     setLocalStorageSession(sessionParam);
     navigate('/dashboard');
-    // window.location.reload();
+    window.location.reload();
   };
 
   if (!session.user) {
@@ -64,7 +64,11 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
       setSessionEverywhere();
     }
   };
-
+  // console.log({
+  //   expiration: session.expiration,
+  //   parsed: Date(session.expiration),
+  //   unix: new Date(session.expiration).getTime(),
+  // });
   return (
     <SessionContext.Provider value={[session, setSessionEverywhere]}>
       <div
