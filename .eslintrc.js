@@ -27,6 +27,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
@@ -35,6 +36,7 @@ module.exports = {
   plugins: ['prettier'],
   ignorePatterns: ['src/gen/*', 'dist', 'coverage', 'backend'],
   rules: {
+    'react-hooks/exhaustive-deps': 'warn',
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',

@@ -1,6 +1,6 @@
 // Node Modules
 import Cookies from 'js-cookie';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Hooks
 import makeContextHook from 'hooks/makeContextHooks';
@@ -12,19 +12,24 @@ import { getLocalStorageSession, setLocalStorageSession } from 'utils/handleLoca
 import { useAuthMediator } from 'providers/authMediatorProvider';
 
 export const SessionContext = createContext<
-  [Session, (sessionParam?: Session) => void] | undefined
+  [Session, (sessionParam?: Session, path?: string, reload?: boolean) => void] | undefined
 >(undefined);
 
 export const useSession = makeContextHook(SessionContext);
 
 const SessionProvider = ({ children }: { children: React.ReactNode }) => {
+  const localSession: Session | null = getLocalStorageSession();
   const navigate = useNavigate();
   const authMediator = useAuthMediator();
-  const [session, setSession] = useState<Session>({
-    user: null,
-    expiration: null,
-    isValidToken: false,
-  });
+  const [session, setSession] = useState<Session>(
+    localSession
+      ? localSession
+      : {
+          user: null,
+          expiration: null,
+          isValidToken: false,
+        },
+  );
 
   /**
    * Sets or deletes session based on sessionParam being passed into function or not
@@ -32,7 +37,11 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
    * @example setSessionEverywhere()
    * @example setSessionEverywhere(session)
    */
-  const setSessionEverywhere = (sessionParam?: Session) => {
+  const setSessionEverywhere = (
+    sessionParam?: Session,
+    path?: string,
+    reload?: boolean,
+  ) => {
     if (!sessionParam) {
       setSession({
         user: null,
@@ -41,34 +50,69 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
       });
       Cookies.remove('token');
       localStorage.removeItem('session');
+      window.location.reload();
       navigate('/');
       return;
     }
-    setSession(sessionParam);
     setLocalStorageSession(sessionParam);
-    navigate('/dashboard');
-    window.location.reload();
+
+    if (!reload) {
+      setSession(sessionParam);
+    }
+
+    if (path) {
+      navigate(`/${path}`);
+    }
+
+    if (reload) {
+      window.location.reload();
+    }
   };
 
-  if (!session.user) {
-    const localSession: Session | null = getLocalStorageSession();
-    if (localSession) {
-      setSession(localSession);
-    }
-  }
-
   const handleRefreshToken = async () => {
-    const { isAuthenticated } = await authMediator.userRefreshToken();
+    const { isAuthenticated, expiration } = await authMediator.userRefreshToken();
     if (!isAuthenticated) {
       // If user no longer has valid JWT, sign user out
       setSessionEverywhere();
+      return;
     }
+    if (!expiration) {
+      return;
+    }
+    setSessionEverywhere({
+      ...session,
+      expiration,
+    });
+    console.log('handleRefreshToken is being called');
   };
-  // console.log({
-  //   expiration: session.expiration,
-  //   parsed: Date(session.expiration),
-  //   unix: new Date(session.expiration).getTime(),
-  // });
+  console.log(session);
+  useEffect(() => {
+    const expirationTime = localSession?.expiration
+      ? new Date(localSession.expiration)
+      : null;
+
+    if (!expirationTime) {
+      return;
+    }
+    const millisecondUntilExpiration = expirationTime?.getTime() - new Date().getTime();
+
+    console.log(millisecondUntilExpiration / 1000 / 60);
+
+    const tenMinutes = 600000;
+
+    if (millisecondUntilExpiration < tenMinutes) {
+      handleRefreshToken();
+      return;
+    }
+
+    const id = setTimeout(handleRefreshToken, millisecondUntilExpiration);
+
+    return () => {
+      clearTimeout(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localSession?.expiration]);
+
   return (
     <SessionContext.Provider value={[session, setSessionEverywhere]}>
       <div

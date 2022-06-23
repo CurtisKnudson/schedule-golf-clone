@@ -52,7 +52,7 @@ export const Login = () => {
       isValidToken: true,
     };
 
-    setSessionEverywhere(session);
+    setSessionEverywhere(session, 'dashboard');
   };
 
   if (session.user && session.isValidToken) {

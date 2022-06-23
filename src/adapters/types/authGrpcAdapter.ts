@@ -8,6 +8,11 @@ import {
 import { NewUser } from 'types/user';
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
 
+export interface RefreshResponse {
+  isAuthenticated: boolean;
+  expiration: null | string;
+}
+
 export interface AuthGrpcAdapter {
   createNewUser(
     newUser: NewUser,
@@ -15,7 +20,5 @@ export interface AuthGrpcAdapter {
   userLogin(
     userLoginCredentials: LoginCredentials,
   ): Promise<{ res: UserLoginResponse; expiration: string }>;
-  userTokenRefresh(): Promise<{
-    isAuthenticated: boolean;
-  }>;
+  userTokenRefresh(): Promise<RefreshResponse>;
 }

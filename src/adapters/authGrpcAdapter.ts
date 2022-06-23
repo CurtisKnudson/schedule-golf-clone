@@ -3,7 +3,11 @@ import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 // Types
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
 import { NewUser } from 'types/user';
-import { AuthGrpcAdapter as AuthGrpcAdapterInterface } from 'adapters/types/authGrpcAdapter';
+import {
+  AuthGrpcAdapter as AuthGrpcAdapterInterface,
+  RefreshResponse,
+} from 'adapters/types/authGrpcAdapter';
+import { GrpcCode } from 'types/code';
 // Constants
 import { apiUrl } from 'constants/apiUrl';
 // Protos
@@ -15,7 +19,6 @@ import {
 import { AuthenticatorServiceClient } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication.client';
 // Utils
 import { getCookie, setCookie } from 'utils/cookieHelper';
-import { GrpcCode } from 'types/code';
 
 export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
   transport = new GrpcWebFetchTransport({
@@ -83,14 +86,16 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
 
     const { status } = res.response;
 
-    const refreshResponse = {
+    const refreshResponse: RefreshResponse = {
       isAuthenticated: false,
+      expiration: null,
     };
 
     // If JWT is succesfully refreshed, update the cookie
     if (status?.code === GrpcCode.OK) {
       setCookie('token', res.response.jwt, res.response.expiration);
       refreshResponse.isAuthenticated = true;
+      refreshResponse.expiration = res.response.expiration;
       return refreshResponse;
     }
     // If the JWT is cancelled by the API, leave everything as it is. This means that the JWT is still valid

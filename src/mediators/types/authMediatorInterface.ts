@@ -7,6 +7,7 @@ import {
 // Types
 import { NewUser } from 'types/user';
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
+import { RefreshResponse } from 'adapters/types/authGrpcAdapter';
 
 export interface AuthMediatorInterface {
   createNewUser(
@@ -15,7 +16,5 @@ export interface AuthMediatorInterface {
   userLogin(
     userLoginCredentials: LoginCredentials,
   ): Promise<{ res: UserLoginResponse; expiration: string }>;
-  userRefreshToken(): Promise<{
-    isAuthenticated: boolean;
-  }>;
+  userRefreshToken(): Promise<RefreshResponse>;
 }
