@@ -17,7 +17,10 @@ export class AuthGrpcAdapterMock implements AuthGrpcAdapterInterface {
       ...newUser,
     };
 
-    return Promise.resolve(req);
+    return Promise.resolve({
+      res: req,
+      expiration: new Date().toString(),
+    });
   }
 
   async userLogin(userLoginCredentials: LoginCredentials) {
@@ -35,12 +38,16 @@ export class AuthGrpcAdapterMock implements AuthGrpcAdapterInterface {
       lastName: 'Knudson',
       email: req.email,
     };
-    return Promise.resolve(res);
+    return Promise.resolve({
+      res,
+      expiration: new Date().toString(),
+    });
   }
 
   async userTokenRefresh() {
     return Promise.resolve({
       isAuthenticated: true,
+      expiration: new Date().toString(),
     });
   }
 }

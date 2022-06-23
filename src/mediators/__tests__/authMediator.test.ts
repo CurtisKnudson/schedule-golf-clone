@@ -18,33 +18,37 @@ describe('Auth Mediator', () => {
       email: 'curtis@gmail.com',
       password: 'testpassword',
     });
-    expect(req).toMatchObject({
+    expect(req.res).toMatchObject({
       companyName: 'Riverbend Golf Community',
       firstName: 'Curtis',
       lastName: 'Knudson',
       email: 'curtis@gmail.com',
       password: 'testpassword',
     });
-    expect(req).toMatchSnapshot({
+    expect(req.res).toMatchSnapshot({
       userId: expect.any(String),
     });
+    expect(req.expiration).toBeTruthy();
   });
 
   it('UserLogin', async () => {
-    const req = await authMediator.userLogin({
+    const { res, expiration } = await authMediator.userLogin({
       email: 'curtis@gmail.com',
       password: 'thisisapassword',
     });
 
-    expect(req).toBeTruthy();
-    expect(req).toMatchSnapshot();
+    expect(res).toBeTruthy();
+    expect(res).toMatchSnapshot();
+
+    expect(expiration).toBeTruthy();
   });
 
   it('UserRefreshToken', async () => {
     const req = await authMediator.userRefreshToken();
 
-    const { isAuthenticated } = req;
+    const { isAuthenticated, expiration } = req;
 
     expect(isAuthenticated).toBeTruthy();
+    expect(expiration).toBeTruthy();
   });
 });
