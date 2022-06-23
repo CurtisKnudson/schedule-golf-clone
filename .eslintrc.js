@@ -50,5 +50,6 @@ module.exports = {
         aspects: ['invalidHref', 'preferButton'],
       },
     ],
+    'no-console': ['error'],
   },
 };
