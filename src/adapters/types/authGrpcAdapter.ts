@@ -8,10 +8,17 @@ import {
 import { NewUser } from 'types/user';
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
 
+export interface RefreshResponse {
+  isAuthenticated: boolean;
+  expiration: null | string;
+}
+
 export interface AuthGrpcAdapter {
-  createNewUser(newUser: NewUser): Promise<CreateNewUserResponse>;
-  userLogin(userLoginCredentials: LoginCredentials): Promise<UserLoginResponse>;
-  userTokenRefresh(): Promise<{
-    isAuthenticated: boolean;
-  }>;
+  createNewUser(
+    newUser: NewUser,
+  ): Promise<{ res: CreateNewUserResponse; expiration: string }>;
+  userLogin(
+    userLoginCredentials: LoginCredentials,
+  ): Promise<{ res: UserLoginResponse; expiration: string }>;
+  userTokenRefresh(): Promise<RefreshResponse>;
 }

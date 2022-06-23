@@ -9,7 +9,7 @@ export const Home = () => {
   const [session, setSessionEverywhere] = useSession();
 
   const handleSignout = () => {
-    setSessionEverywhere();
+    setSessionEverywhere(undefined, undefined, true);
     toast("You've been signed out");
   };
 

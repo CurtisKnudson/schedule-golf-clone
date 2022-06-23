@@ -44,13 +44,15 @@ export const Login = () => {
       throw new Error('Invalid Credentials');
     });
 
+    const { res, expiration } = req;
+
     const session: Session = {
-      user: req,
-      expiration: Date.now().toLocaleString(),
+      user: res,
+      expiration,
       isValidToken: true,
     };
 
-    setSessionEverywhere(session);
+    setSessionEverywhere(session, 'dashboard');
   };
 
   if (session.user && session.isValidToken) {

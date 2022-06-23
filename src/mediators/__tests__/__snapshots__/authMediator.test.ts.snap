@@ -11,6 +11,8 @@ exports[`Auth Mediator > Create New User 1`] = `
 }
 `;
 
+exports[`Auth Mediator > Create New User 2`] = `"Thu Jun 23 2022 16:56:28 GMT-0600 (Mountain Daylight Time)"`;
+
 exports[`Auth Mediator > UserLogin 1`] = `
 {
   "companyName": "Riverbend Golf Community",

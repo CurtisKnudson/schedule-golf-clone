@@ -30,7 +30,7 @@ type Claims struct {
 func generateJwt(email string) (string, time.Time) {
 	var jwtKey = []byte(m.MustGetenv("JWT"))
 
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(60 * time.Minute)
 
 	claims := &Claims{
 		email: email,
@@ -140,11 +140,9 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 
 	jwt, expirationTime := generateJwt(newUser.email)
 	// Sent JWT with Creation of User
-	tokenHeader := metadata.Pairs("token", jwt)
-	expirationHeader := metadata.Pairs("expiration", expirationTime.String())
+	headers := metadata.Pairs("token", jwt, "expiration", expirationTime.Format(time.UnixDate))
 
-	grpc.SendHeader(ctx, tokenHeader)
-	grpc.SendHeader(ctx, expirationHeader)
+	grpc.SendHeader(ctx, headers)
 
 	return &authv1.CreateNewUserResponse{
 		UserId:      in.UserId,
@@ -183,11 +181,9 @@ func (s *AuthenticatorServiceServer) UserLogin(ctx context.Context, in *authv1.U
 	jwt, expirationTime := generateJwt(user.email)
 	// Need to update Proto to pass JWT as a value and stop using headers to pass data. Will be TLS encrypted.
 	// Sent JWT with Creation of User
-	tokenHeader := metadata.Pairs("token", jwt)
-	expirationHeader := metadata.Pairs("expiration", expirationTime.String())
+	headers := metadata.Pairs("token", jwt, "expiration", expirationTime.Format(time.UnixDate))
 
-	grpc.SendHeader(ctx, tokenHeader)
-	grpc.SendHeader(ctx, expirationHeader)
+	grpc.SendHeader(ctx, headers)
 
 	return &authv1.UserLoginResponse{
 		UserId:      user.user_id,
@@ -212,7 +208,7 @@ func (s *AuthenticatorServiceServer) UserTokenRefresh(ctx context.Context, in *a
 	})
 
 	if !tkn.Valid {
-		fmt.Printf("Invalid Token %v", ctx)
+		fmt.Printf("Invalid Token")
 		return &authv1.UserTokenRefreshResponse{
 			Status: &status.Status{
 				Code:    int32(code.Code_UNAUTHENTICATED),
@@ -231,8 +227,8 @@ func (s *AuthenticatorServiceServer) UserTokenRefresh(ctx context.Context, in *a
 		}, nil
 
 	}
-
-	if time.Until(time.Unix(claims.ExpiresAt, 0)) > 30*time.Second {
+	if time.Until(time.Unix(claims.ExpiresAt, 0)) > 10*time.Minute {
+		fmt.Print("not expired yet \n")
 		return &authv1.UserTokenRefreshResponse{
 			Status: &status.Status{
 				Code:    int32(code.Code_CANCELLED),
@@ -241,7 +237,7 @@ func (s *AuthenticatorServiceServer) UserTokenRefresh(ctx context.Context, in *a
 		}, nil
 	}
 
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(60 * time.Minute)
 
 	claims.ExpiresAt = expirationTime.Unix()
 
@@ -259,9 +255,11 @@ func (s *AuthenticatorServiceServer) UserTokenRefresh(ctx context.Context, in *a
 		}, nil
 	}
 
+	fmt.Printf("Token generated: \n %v, \n %v \n", time.Now(), tokenString)
+
 	return &authv1.UserTokenRefreshResponse{
 		Jwt:        tokenString,
-		Expiration: expirationTime.String(),
+		Expiration: expirationTime.Format(time.UnixDate),
 		Status: &status.Status{
 			Code: int32(code.Code_OK),
 		},
