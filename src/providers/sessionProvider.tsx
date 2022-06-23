@@ -83,9 +83,8 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
       ...session,
       expiration,
     });
-    console.log('handleRefreshToken is being called');
   };
-  console.log(session);
+
   useEffect(() => {
     const expirationTime = localSession?.expiration
       ? new Date(localSession.expiration)
