@@ -95,8 +95,6 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     }
     const millisecondUntilExpiration = expirationTime?.getTime() - new Date().getTime();
 
-    console.log(millisecondUntilExpiration / 1000 / 60);
-
     const tenMinutes = 600000;
 
     if (millisecondUntilExpiration < tenMinutes) {
