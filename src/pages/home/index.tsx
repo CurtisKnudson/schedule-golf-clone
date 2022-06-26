@@ -2,6 +2,8 @@
 import { toast } from 'react-toastify';
 // Providers
 import { useSession } from 'providers/sessionProvider';
+// Components
+import { ComponentHeader } from 'components/componentHeader';
 
 export const Home = () => {
   const [, setSessionEverywhere] = useSession();
@@ -13,9 +15,10 @@ export const Home = () => {
 
   return (
     <div className="flex justify-center flex-col">
+      <ComponentHeader header="Home" />
       <div
         role="button"
-        className="mx-4 cursor-pointer mt-8"
+        className="cursor-pointer mt-8"
         tabIndex={0}
         onClick={handleSignout}
         onKeyDown={(e) => {

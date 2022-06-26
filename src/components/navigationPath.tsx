@@ -8,7 +8,7 @@ export const NavigationPath = () => {
   const breadcrumbs = useBreadcrumbs();
   return (
     <div>
-      <div className="flex  ml-8 mt-6 h-4">
+      <div className="flex mt-8 h-4">
         {breadcrumbs.map((obj, index) => {
           if (obj.key === '/') {
             return (
