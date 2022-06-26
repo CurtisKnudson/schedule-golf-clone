@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { AuthenticatorService } from "./authentication";
+import type { ForeupAuthenticationResponse } from "./authentication";
+import type { ForeupAuthenticationRequest } from "./authentication";
 import type { UserTokenRefreshResponse } from "./authentication";
 import type { UserTokenRefreshRequest } from "./authentication";
 import type { CreateNewUserResponse } from "./authentication";
@@ -29,6 +31,10 @@ export interface IAuthenticatorServiceClient {
      * @generated from protobuf rpc: UserTokenRefresh(schedule_golf.authentication.v1alpha1.UserTokenRefreshRequest) returns (schedule_golf.authentication.v1alpha1.UserTokenRefreshResponse);
      */
     userTokenRefresh(input: UserTokenRefreshRequest, options?: RpcOptions): UnaryCall<UserTokenRefreshRequest, UserTokenRefreshResponse>;
+    /**
+     * @generated from protobuf rpc: ForeupAuthentication(schedule_golf.authentication.v1alpha1.ForeupAuthenticationRequest) returns (schedule_golf.authentication.v1alpha1.ForeupAuthenticationResponse);
+     */
+    foreupAuthentication(input: ForeupAuthenticationRequest, options?: RpcOptions): UnaryCall<ForeupAuthenticationRequest, ForeupAuthenticationResponse>;
 }
 /**
  * @generated from protobuf service schedule_golf.authentication.v1alpha1.AuthenticatorService
@@ -59,5 +65,12 @@ export class AuthenticatorServiceClient implements IAuthenticatorServiceClient, 
     userTokenRefresh(input: UserTokenRefreshRequest, options?: RpcOptions): UnaryCall<UserTokenRefreshRequest, UserTokenRefreshResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<UserTokenRefreshRequest, UserTokenRefreshResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: ForeupAuthentication(schedule_golf.authentication.v1alpha1.ForeupAuthenticationRequest) returns (schedule_golf.authentication.v1alpha1.ForeupAuthenticationResponse);
+     */
+    foreupAuthentication(input: ForeupAuthenticationRequest, options?: RpcOptions): UnaryCall<ForeupAuthenticationRequest, ForeupAuthenticationResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ForeupAuthenticationRequest, ForeupAuthenticationResponse>("unary", this._transport, method, opt, input);
     }
 }

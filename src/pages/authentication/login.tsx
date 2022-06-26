@@ -52,18 +52,15 @@ export const Login = () => {
       isValidToken: true,
     };
 
-    setSessionEverywhere(session, 'dashboard');
+    setSessionEverywhere(session, '');
   };
 
   if (session.user && session.isValidToken) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/" />;
   }
 
   return (
     <div className="bg-gray-50">
-      <div>
-        <Link to="/">Back to home</Link>
-      </div>
       <div className="flex justify-center items-center text-center min-h-screen pb-20 ">
         <div className="flex flex-col">
           <div className="border min-h-80 h-auto w-96 mt-4 rounded p-4 bg-white shadow-lg">
