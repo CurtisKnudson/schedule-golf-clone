@@ -3,8 +3,9 @@ import { Outlet } from 'react-router-dom';
 // Pages
 import { Login } from 'pages/authentication/login';
 import { SignUp } from 'pages/authentication/signUp';
-import { Dashboard } from 'pages/dashboard';
 import { Home } from 'pages/home';
+import { Dashboard } from 'pages/dashboard';
+import { Settings } from 'pages/settings';
 
 // Types
 import { Routes } from 'types/routes';
@@ -14,6 +15,7 @@ export const appRoutes: Routes[] = [
     id: 1,
     name: 'splat route',
     path: '*',
+    // TODO: Need to create an actual splat page
     element: <div>splat route</div>,
   },
   {
@@ -25,8 +27,8 @@ export const appRoutes: Routes[] = [
   {
     id: 3,
     name: 'home',
-    element: <Home />,
     isIndex: true,
+    element: <Home />,
   },
   {
     id: 3,
@@ -42,8 +44,14 @@ export const appRoutes: Routes[] = [
   },
   {
     id: 5,
-    name: 'protected',
+    name: 'Dashboard',
     path: '/dashboard',
     element: <Dashboard />,
+  },
+  {
+    id: 6,
+    name: 'Settings',
+    path: '/settings',
+    element: <Settings />,
   },
 ];
