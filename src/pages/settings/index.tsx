@@ -1,3 +1,10 @@
+import { ComponentHeader } from 'components/componentHeader';
+
 export const Settings = () => {
-  return <div>I am the settings div</div>;
+  return (
+    <div>
+      <ComponentHeader header="Settings" />
+      <div>I am the settings component</div>
+    </div>
+  );
 };

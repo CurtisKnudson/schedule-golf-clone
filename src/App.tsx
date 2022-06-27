@@ -17,7 +17,7 @@ const App = () => {
       <div className="h-1 bg-green-1000">
         <div className="flex">
           <Sidebar />
-          <div className="w-full m-2">
+          <div className="w-full m-2 ml-8">
             <NavigationPath />
             <Routes>
               {appRoutes.map((mappedRoute) => {
