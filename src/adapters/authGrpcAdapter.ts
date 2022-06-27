@@ -13,6 +13,7 @@ import { apiUrl } from 'constants/apiUrl';
 // Protos
 import {
   CreateNewUserRequest,
+  ForeUpAuthenticationRequest,
   UserLoginRequest,
   UserTokenRefreshRequest,
 } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication';
@@ -105,5 +106,21 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
     }
 
     return refreshResponse;
+  }
+
+  async foreUpAuthentication({
+    email,
+    password,
+    scheduleGolfJwt,
+  }: ForeUpAuthenticationRequest) {
+    const req: ForeUpAuthenticationRequest = {
+      email,
+      password,
+      scheduleGolfJwt,
+    };
+
+    const res = await this.authenticator.foreUpAuthentication(req);
+
+    console.log(res);
   }
 }

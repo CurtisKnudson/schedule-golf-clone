@@ -25,7 +25,7 @@ type AuthenticatorServiceClient interface {
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	CreateNewUser(ctx context.Context, in *CreateNewUserRequest, opts ...grpc.CallOption) (*CreateNewUserResponse, error)
 	UserTokenRefresh(ctx context.Context, in *UserTokenRefreshRequest, opts ...grpc.CallOption) (*UserTokenRefreshResponse, error)
-	ForeupAuthentication(ctx context.Context, in *ForeupAuthenticationRequest, opts ...grpc.CallOption) (*ForeupAuthenticationResponse, error)
+	ForeUpAuthentication(ctx context.Context, in *ForeUpAuthenticationRequest, opts ...grpc.CallOption) (*ForeUpAuthenticationResponse, error)
 }
 
 type authenticatorServiceClient struct {
@@ -63,9 +63,9 @@ func (c *authenticatorServiceClient) UserTokenRefresh(ctx context.Context, in *U
 	return out, nil
 }
 
-func (c *authenticatorServiceClient) ForeupAuthentication(ctx context.Context, in *ForeupAuthenticationRequest, opts ...grpc.CallOption) (*ForeupAuthenticationResponse, error) {
-	out := new(ForeupAuthenticationResponse)
-	err := c.cc.Invoke(ctx, "/schedule_golf.authentication.v1alpha1.AuthenticatorService/ForeupAuthentication", in, out, opts...)
+func (c *authenticatorServiceClient) ForeUpAuthentication(ctx context.Context, in *ForeUpAuthenticationRequest, opts ...grpc.CallOption) (*ForeUpAuthenticationResponse, error) {
+	out := new(ForeUpAuthenticationResponse)
+	err := c.cc.Invoke(ctx, "/schedule_golf.authentication.v1alpha1.AuthenticatorService/ForeUpAuthentication", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ type AuthenticatorServiceServer interface {
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	CreateNewUser(context.Context, *CreateNewUserRequest) (*CreateNewUserResponse, error)
 	UserTokenRefresh(context.Context, *UserTokenRefreshRequest) (*UserTokenRefreshResponse, error)
-	ForeupAuthentication(context.Context, *ForeupAuthenticationRequest) (*ForeupAuthenticationResponse, error)
+	ForeUpAuthentication(context.Context, *ForeUpAuthenticationRequest) (*ForeUpAuthenticationResponse, error)
 }
 
 // UnimplementedAuthenticatorServiceServer should be embedded to have forward compatible implementations.
@@ -95,8 +95,8 @@ func (UnimplementedAuthenticatorServiceServer) CreateNewUser(context.Context, *C
 func (UnimplementedAuthenticatorServiceServer) UserTokenRefresh(context.Context, *UserTokenRefreshRequest) (*UserTokenRefreshResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserTokenRefresh not implemented")
 }
-func (UnimplementedAuthenticatorServiceServer) ForeupAuthentication(context.Context, *ForeupAuthenticationRequest) (*ForeupAuthenticationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ForeupAuthentication not implemented")
+func (UnimplementedAuthenticatorServiceServer) ForeUpAuthentication(context.Context, *ForeUpAuthenticationRequest) (*ForeUpAuthenticationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForeUpAuthentication not implemented")
 }
 
 // UnsafeAuthenticatorServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -164,20 +164,20 @@ func _AuthenticatorService_UserTokenRefresh_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthenticatorService_ForeupAuthentication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ForeupAuthenticationRequest)
+func _AuthenticatorService_ForeUpAuthentication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForeUpAuthenticationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthenticatorServiceServer).ForeupAuthentication(ctx, in)
+		return srv.(AuthenticatorServiceServer).ForeUpAuthentication(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/schedule_golf.authentication.v1alpha1.AuthenticatorService/ForeupAuthentication",
+		FullMethod: "/schedule_golf.authentication.v1alpha1.AuthenticatorService/ForeUpAuthentication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticatorServiceServer).ForeupAuthentication(ctx, req.(*ForeupAuthenticationRequest))
+		return srv.(AuthenticatorServiceServer).ForeUpAuthentication(ctx, req.(*ForeUpAuthenticationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -202,8 +202,8 @@ var AuthenticatorService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AuthenticatorService_UserTokenRefresh_Handler,
 		},
 		{
-			MethodName: "ForeupAuthentication",
-			Handler:    _AuthenticatorService_ForeupAuthentication_Handler,
+			MethodName: "ForeUpAuthentication",
+			Handler:    _AuthenticatorService_ForeUpAuthentication_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

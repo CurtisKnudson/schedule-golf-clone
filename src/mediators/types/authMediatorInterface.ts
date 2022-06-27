@@ -9,6 +9,12 @@ import { NewUser } from 'types/user';
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
 import { RefreshResponse } from 'adapters/types/authGrpcAdapter';
 
+export interface ForeUpAuthenticationRequestUI {
+  email: string;
+  password: string;
+  scheduleGolfJwt: string;
+}
+
 export interface AuthMediatorInterface {
   createNewUser(
     newUser: NewUser,
@@ -17,4 +23,5 @@ export interface AuthMediatorInterface {
     userLoginCredentials: LoginCredentials,
   ): Promise<{ res: UserLoginResponse; expiration: string }>;
   userRefreshToken(): Promise<RefreshResponse>;
+  foreUpAuthentication(authRequest: ForeUpAuthenticationRequestUI): Promise<void>;
 }

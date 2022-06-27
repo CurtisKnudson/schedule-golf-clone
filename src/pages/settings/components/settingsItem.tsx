@@ -1,23 +1,39 @@
 // Node Modules
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface SettingsItemProps {
   name: string;
   description: string;
+  element: JSX.Element;
 }
 
-export const SettingsItem = ({ name, description }: SettingsItemProps) => {
+export const SettingsItem = ({ name, description, element }: SettingsItemProps) => {
+  const accordion = document.querySelector('.accordion');
   const [isOpen, setIsOpen] = useState(false);
+  const [scrollHeight, setScrollHeight] = useState(
+    accordion?.scrollHeight ? accordion.scrollHeight : undefined,
+  );
   const handleExpand = () => {
     setIsOpen(!isOpen);
   };
 
-  const accordion = document.querySelector('.accordion');
+  useEffect(() => {
+    const handleResize = () => {
+      if (accordion?.scrollHeight) {
+        setScrollHeight(accordion?.scrollHeight);
+        return;
+      }
+      setScrollHeight(undefined);
+    };
+    window.addEventListener('resize', handleResize);
 
-  console.log(accordion?.scrollHeight);
+    () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [accordion?.scrollHeight]);
 
   return (
-    <div className="px-4">
+    <div className="md:w-8/12">
       <div className="h-32 flex justify-between items-center">
         <div>
           <div className="font-bold text-2xl mb-2">{name}</div>
@@ -42,12 +58,12 @@ export const SettingsItem = ({ name, description }: SettingsItemProps) => {
       <div
         style={
           accordion?.scrollHeight && isOpen
-            ? { maxHeight: accordion.scrollHeight + 'px' }
+            ? { maxHeight: scrollHeight ? scrollHeight : accordion.scrollHeight }
             : {}
         }
-        className={`accordion ${isOpen ? '' : 'max-h-0'} `}
+        className={`accordion ${isOpen ? '' : 'max-h-0'}`}
       >
-        This is the accordion
+        {element}
       </div>
     </div>
   );

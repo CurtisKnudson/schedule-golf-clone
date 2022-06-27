@@ -7,7 +7,7 @@ service AuthenticatorService {
     rpc UserLogin (UserLoginRequest) returns (UserLoginResponse);
     rpc CreateNewUser (CreateNewUserRequest) returns (CreateNewUserResponse);
     rpc UserTokenRefresh (UserTokenRefreshRequest) returns (UserTokenRefreshResponse);
-    rpc ForeupAuthentication (ForeupAuthenticationRequest) returns (ForeupAuthenticationResponse);
+    rpc ForeUpAuthentication (ForeUpAuthenticationRequest) returns (ForeUpAuthenticationResponse);
 }
 
 message UserLoginRequest {
@@ -50,14 +50,13 @@ message UserTokenRefreshResponse{
     google.rpc.Status status = 3;
 }
 
-message ForeupAuthenticationRequest {
+message ForeUpAuthenticationRequest {
     string email = 1;
     string password = 2;
     string schedule_golf_jwt = 3;
 }
 
-message ForeupAuthenticationResponse {
-    string foreup_jwt = 1;
+message ForeUpAuthenticationResponse {
     google.rpc.Status  status = 2;
 }
 
