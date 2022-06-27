@@ -85,10 +85,6 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const handleForeUpJwt = async () => {
-    alert('Handled');
-  };
-
   useEffect(() => {
     const expirationTime = localSession?.expiration
       ? new Date(localSession.expiration)
@@ -116,21 +112,6 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SessionContext.Provider value={[session, setSessionEverywhere]}>
-      <div
-        className="text-green-400 fixed top-0 right-0 m-8 cursor-pointer"
-        onClick={handleForeUpJwt}
-        onKeyDown={(e) => {
-          if (e.code != 'Enter') {
-            return;
-          }
-          handleForeUpJwt();
-        }}
-        role="button"
-        aria-label="Handle ForeUp JWT"
-        tabIndex={0}
-      >
-        Get ForeUp JWT
-      </div>
       {children}
     </SessionContext.Provider>
   );

@@ -26,24 +26,24 @@ const sidebarItems = [
   {
     name: 'Home',
     path: '/',
-    icon: <HomeIcon className="text-white h-auto w-6" />,
+    icon: <HomeIcon className="text-gray-200 h-auto w-6" />,
   },
   {
     name: 'Dashboard',
     path: '/dashboard',
-    icon: <DashboardIcon className="text-white h-auto w-6" />,
+    icon: <DashboardIcon className=" text-gray-200 h-auto w-6" />,
   },
   {
     name: 'Settings',
     path: '/settings',
-    icon: <SettingsIcon className="text-white h-auto w-6" />,
+    icon: <SettingsIcon className="text-gray-200 h-auto w-6" />,
   },
 ];
 
 export const Sidebar = () => {
   return (
     <div>
-      <div className="bg-green-1000 h-screen rounded w-16 flex flex-col items-center">
+      <div className="bg-green-1000 h-screen min-h-screen rounded w-16 flex flex-col items-center">
         <div className="mx-4 my-8">
           <Link to="/">
             <GolfBallHeaderIcon />

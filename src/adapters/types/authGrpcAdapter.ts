@@ -1,6 +1,7 @@
 // Protos
 import {
   CreateNewUserResponse,
+  ForeUpAuthenticationRequest,
   UserLoginResponse,
 } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication';
 
@@ -21,4 +22,18 @@ export interface AuthGrpcAdapter {
     userLoginCredentials: LoginCredentials,
   ): Promise<{ res: UserLoginResponse; expiration: string }>;
   userTokenRefresh(): Promise<RefreshResponse>;
+  foreUpAuthentication({
+    email,
+    password,
+    scheduleGolfJwt,
+  }: ForeUpAuthenticationRequest): Promise<
+    | {
+        isSucces: boolean;
+        message: string;
+      }
+    | {
+        isSuccess: boolean;
+        message: string;
+      }
+  >;
 }

@@ -132,9 +132,9 @@ export interface UserTokenRefreshResponse {
     status?: Status;
 }
 /**
- * @generated from protobuf message schedule_golf.authentication.v1alpha1.ForeupAuthenticationRequest
+ * @generated from protobuf message schedule_golf.authentication.v1alpha1.ForeUpAuthenticationRequest
  */
-export interface ForeupAuthenticationRequest {
+export interface ForeUpAuthenticationRequest {
     /**
      * @generated from protobuf field: string email = 1;
      */
@@ -143,15 +143,15 @@ export interface ForeupAuthenticationRequest {
      * @generated from protobuf field: string password = 2;
      */
     password: string;
+    /**
+     * @generated from protobuf field: string schedule_golf_jwt = 3;
+     */
+    scheduleGolfJwt: string;
 }
 /**
- * @generated from protobuf message schedule_golf.authentication.v1alpha1.ForeupAuthenticationResponse
+ * @generated from protobuf message schedule_golf.authentication.v1alpha1.ForeUpAuthenticationResponse
  */
-export interface ForeupAuthenticationResponse {
-    /**
-     * @generated from protobuf field: string foreup_jwt = 1;
-     */
-    foreupJwt: string;
+export interface ForeUpAuthenticationResponse {
     /**
      * @generated from protobuf field: google.rpc.Status status = 2;
      */
@@ -552,21 +552,22 @@ class UserTokenRefreshResponse$Type extends MessageType<UserTokenRefreshResponse
  */
 export const UserTokenRefreshResponse = new UserTokenRefreshResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ForeupAuthenticationRequest$Type extends MessageType<ForeupAuthenticationRequest> {
+class ForeUpAuthenticationRequest$Type extends MessageType<ForeUpAuthenticationRequest> {
     constructor() {
-        super("schedule_golf.authentication.v1alpha1.ForeupAuthenticationRequest", [
+        super("schedule_golf.authentication.v1alpha1.ForeUpAuthenticationRequest", [
             { no: 1, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "schedule_golf_jwt", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<ForeupAuthenticationRequest>): ForeupAuthenticationRequest {
-        const message = { email: "", password: "" };
+    create(value?: PartialMessage<ForeUpAuthenticationRequest>): ForeUpAuthenticationRequest {
+        const message = { email: "", password: "", scheduleGolfJwt: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
-            reflectionMergePartial<ForeupAuthenticationRequest>(this, message, value);
+            reflectionMergePartial<ForeUpAuthenticationRequest>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ForeupAuthenticationRequest): ForeupAuthenticationRequest {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ForeUpAuthenticationRequest): ForeUpAuthenticationRequest {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -576,6 +577,9 @@ class ForeupAuthenticationRequest$Type extends MessageType<ForeupAuthenticationR
                     break;
                 case /* string password */ 2:
                     message.password = reader.string();
+                    break;
+                case /* string schedule_golf_jwt */ 3:
+                    message.scheduleGolfJwt = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -588,13 +592,16 @@ class ForeupAuthenticationRequest$Type extends MessageType<ForeupAuthenticationR
         }
         return message;
     }
-    internalBinaryWrite(message: ForeupAuthenticationRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: ForeUpAuthenticationRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string email = 1; */
         if (message.email !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.email);
         /* string password = 2; */
         if (message.password !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.password);
+        /* string schedule_golf_jwt = 3; */
+        if (message.scheduleGolfJwt !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.scheduleGolfJwt);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -602,32 +609,28 @@ class ForeupAuthenticationRequest$Type extends MessageType<ForeupAuthenticationR
     }
 }
 /**
- * @generated MessageType for protobuf message schedule_golf.authentication.v1alpha1.ForeupAuthenticationRequest
+ * @generated MessageType for protobuf message schedule_golf.authentication.v1alpha1.ForeUpAuthenticationRequest
  */
-export const ForeupAuthenticationRequest = new ForeupAuthenticationRequest$Type();
+export const ForeUpAuthenticationRequest = new ForeUpAuthenticationRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ForeupAuthenticationResponse$Type extends MessageType<ForeupAuthenticationResponse> {
+class ForeUpAuthenticationResponse$Type extends MessageType<ForeUpAuthenticationResponse> {
     constructor() {
-        super("schedule_golf.authentication.v1alpha1.ForeupAuthenticationResponse", [
-            { no: 1, name: "foreup_jwt", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+        super("schedule_golf.authentication.v1alpha1.ForeUpAuthenticationResponse", [
             { no: 2, name: "status", kind: "message", T: () => Status }
         ]);
     }
-    create(value?: PartialMessage<ForeupAuthenticationResponse>): ForeupAuthenticationResponse {
-        const message = { foreupJwt: "" };
+    create(value?: PartialMessage<ForeUpAuthenticationResponse>): ForeUpAuthenticationResponse {
+        const message = {};
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
-            reflectionMergePartial<ForeupAuthenticationResponse>(this, message, value);
+            reflectionMergePartial<ForeUpAuthenticationResponse>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ForeupAuthenticationResponse): ForeupAuthenticationResponse {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ForeUpAuthenticationResponse): ForeUpAuthenticationResponse {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string foreup_jwt */ 1:
-                    message.foreupJwt = reader.string();
-                    break;
                 case /* google.rpc.Status status */ 2:
                     message.status = Status.internalBinaryRead(reader, reader.uint32(), options, message.status);
                     break;
@@ -642,10 +645,7 @@ class ForeupAuthenticationResponse$Type extends MessageType<ForeupAuthentication
         }
         return message;
     }
-    internalBinaryWrite(message: ForeupAuthenticationResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string foreup_jwt = 1; */
-        if (message.foreupJwt !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.foreupJwt);
+    internalBinaryWrite(message: ForeUpAuthenticationResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* google.rpc.Status status = 2; */
         if (message.status)
             Status.internalBinaryWrite(message.status, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
@@ -656,9 +656,9 @@ class ForeupAuthenticationResponse$Type extends MessageType<ForeupAuthentication
     }
 }
 /**
- * @generated MessageType for protobuf message schedule_golf.authentication.v1alpha1.ForeupAuthenticationResponse
+ * @generated MessageType for protobuf message schedule_golf.authentication.v1alpha1.ForeUpAuthenticationResponse
  */
-export const ForeupAuthenticationResponse = new ForeupAuthenticationResponse$Type();
+export const ForeUpAuthenticationResponse = new ForeUpAuthenticationResponse$Type();
 /**
  * @generated ServiceType for protobuf service schedule_golf.authentication.v1alpha1.AuthenticatorService
  */
@@ -666,5 +666,5 @@ export const AuthenticatorService = new ServiceType("schedule_golf.authenticatio
     { name: "UserLogin", options: {}, I: UserLoginRequest, O: UserLoginResponse },
     { name: "CreateNewUser", options: {}, I: CreateNewUserRequest, O: CreateNewUserResponse },
     { name: "UserTokenRefresh", options: {}, I: UserTokenRefreshRequest, O: UserTokenRefreshResponse },
-    { name: "ForeupAuthentication", options: {}, I: ForeupAuthenticationRequest, O: ForeupAuthenticationResponse }
+    { name: "ForeUpAuthentication", options: {}, I: ForeUpAuthenticationRequest, O: ForeUpAuthenticationResponse }
 ]);
