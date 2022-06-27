@@ -3,6 +3,7 @@ import { AuthGrpcAdapter as AuthGrpcAdapterInterface } from 'adapters/types/auth
 // Protos
 import {
   CreateNewUserRequest,
+  ForeUpAuthenticationRequest,
   UserLoginRequest,
   UserLoginResponse,
 } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication';
@@ -49,5 +50,21 @@ export class AuthGrpcAdapterMock implements AuthGrpcAdapterInterface {
       isAuthenticated: true,
       expiration: new Date().toString(),
     });
+  }
+
+  async foreUpAuthentication({
+    email,
+    password,
+    scheduleGolfJwt,
+  }: ForeUpAuthenticationRequest) {
+    const req = {
+      email,
+      password,
+      scheduleGolfJwt,
+    };
+    return {
+      isSuccess: true,
+      message: req.email,
+    };
   }
 }

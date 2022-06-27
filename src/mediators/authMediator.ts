@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 // Types
 import {
   AuthMediatorInterface,
-  ForeUpAuthenticationRequestUI,
+  ForeUpAuthenticationRequest,
 } from 'mediators/types/authMediatorInterface';
 import { LoginCredentials } from 'pages/authentication/types/loginCredentials';
 import { NewUser } from 'types/user';
@@ -49,7 +49,7 @@ export class AuthMediator implements AuthMediatorInterface {
   async userRefreshToken() {
     return await this.adapter.userTokenRefresh();
   }
-  async foreUpAuthentication(authRequest: ForeUpAuthenticationRequestUI) {
+  async foreUpAuthentication(authRequest: ForeUpAuthenticationRequest) {
     return await this.adapter.foreUpAuthentication(authRequest);
   }
   dispose() {

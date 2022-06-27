@@ -26,5 +26,14 @@ export interface AuthGrpcAdapter {
     email,
     password,
     scheduleGolfJwt,
-  }: ForeUpAuthenticationRequest): Promise<void>;
+  }: ForeUpAuthenticationRequest): Promise<
+    | {
+        isSucces: boolean;
+        message: string;
+      }
+    | {
+        isSuccess: boolean;
+        message: string;
+      }
+  >;
 }

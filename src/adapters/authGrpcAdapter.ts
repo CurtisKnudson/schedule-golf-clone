@@ -119,8 +119,23 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
       scheduleGolfJwt,
     };
 
-    const res = await this.authenticator.foreUpAuthentication(req);
+    const res = await this.authenticator
+      .foreUpAuthentication(req)
+      .then((res) => {
+        return {
+          isSucces: true,
+          message: res.response.status?.message
+            ? res.response.status?.message
+            : 'success',
+        };
+      })
+      .catch(() => {
+        return {
+          isSuccess: false,
+          message: '',
+        };
+      });
 
-    console.log(res);
+    return res;
   }
 }
