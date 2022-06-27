@@ -23,6 +23,11 @@ module.exports = {
           justifyContent: 'center',
           alignItems: 'center',
         },
+        '.accordion': {
+          overflow: 'hidden',
+          transition: 'max-height 0.2s ease-out',
+          height: 'auto',
+        },
       };
 
       addUtilities(newUtilities);

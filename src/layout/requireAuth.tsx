@@ -14,6 +14,9 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
     if (location.pathname === '/signup') {
       return <SignUp />;
     }
+    if (window.location.pathname !== '/') {
+      window.location.pathname = '/';
+    }
     return <Login />;
   }
   return children;
