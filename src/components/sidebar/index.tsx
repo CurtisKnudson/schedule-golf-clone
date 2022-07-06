@@ -1,26 +1,12 @@
 /// <reference types="vite-plugin-svgr/client" />
 // Node Modules
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 // Icons
 import { HomeIcon, SettingsIcon, DashboardIcon } from 'icons';
 import { ReactComponent as GolfBallHeaderIcon } from 'public/golf-svg.svg';
-
-export interface SidebarItemProps {
-  children: JSX.Element;
-  path?: string;
-}
-export const SidebarItem: React.FC<SidebarItemProps> = ({ children, path }) => {
-  return (
-    <div className="my-2">
-      <Link to={path ? path : '/'}>
-        <div className="p-2 rounded cursor-pointer bg-green  hover:bg-green-850">
-          {children}
-        </div>
-      </Link>
-    </div>
-  );
-};
+import { SidebarItem } from 'components/sidebar/sidebarItem';
 
 const sidebarItems = [
   {
@@ -41,6 +27,14 @@ const sidebarItems = [
 ];
 
 export const Sidebar = () => {
+  const t = useLocation();
+  const [selected, setSelected] = useState(t.pathname);
+  // TODO: Need to check for nested routes properly
+
+  useEffect(() => {
+    setSelected(t.pathname);
+  }, [t.pathname]);
+
   return (
     <div>
       <div className="bg-green-1000 h-screen min-h-screen rounded w-16 flex flex-col items-center">
@@ -51,7 +45,7 @@ export const Sidebar = () => {
         </div>
         {sidebarItems.map((item) => {
           return (
-            <SidebarItem path={item.path} key={item.name}>
+            <SidebarItem path={item.path} key={item.name} selected={selected}>
               {item.icon}
             </SidebarItem>
           );
