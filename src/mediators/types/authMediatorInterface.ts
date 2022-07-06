@@ -14,7 +14,7 @@ export interface AuthMediatorInterface {
   userLogin(
     userLoginCredentials: LoginCredentials,
   ): Promise<{ res: User; expiration: string }>;
-  userRefreshToken(): Promise<RefreshResponse>;
+  userTokenRefresh(): Promise<RefreshResponse>;
   foreUpAuthentication(authRequest: ForeUpAuthenticationRequest): Promise<
     | {
         isSucces: boolean;

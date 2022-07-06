@@ -46,7 +46,7 @@ export class AuthMediator implements AuthMediatorInterface {
 
     return req;
   }
-  async userRefreshToken() {
+  async userTokenRefresh() {
     return await this.adapter.userTokenRefresh();
   }
   async foreUpAuthentication(authRequest: ForeUpAuthenticationRequest) {
