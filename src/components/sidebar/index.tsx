@@ -27,13 +27,13 @@ const sidebarItems = [
 ];
 
 export const Sidebar = () => {
-  const t = useLocation();
-  const [selected, setSelected] = useState(t.pathname);
+  const { pathname } = useLocation();
+  const [selected, setSelected] = useState(pathname);
   // TODO: Need to check for nested routes properly
 
   useEffect(() => {
-    setSelected(t.pathname);
-  }, [t.pathname]);
+    setSelected(pathname);
+  }, [pathname]);
 
   return (
     <div>
