@@ -74,9 +74,13 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
 
   async userTokenRefresh() {
     const jwt = getCookie('token');
+    const refreshResponse: RefreshResponse = {
+      isAuthenticated: false,
+      expiration: null,
+    };
 
     if (!jwt) {
-      throw new Error('userTokenRefresh did not receive a webtoken');
+      return refreshResponse;
     }
 
     const req: UserTokenRefreshRequest = {
@@ -86,11 +90,6 @@ export class AuthGrpcAdapter implements AuthGrpcAdapterInterface {
     const res = await this.authenticator.userTokenRefresh(req);
 
     const { status } = res.response;
-
-    const refreshResponse: RefreshResponse = {
-      isAuthenticated: false,
-      expiration: null,
-    };
 
     // If JWT is succesfully refreshed, update the cookie
     if (status?.code === GrpcCode.OK) {

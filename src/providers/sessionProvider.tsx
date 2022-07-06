@@ -71,6 +71,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleRefreshToken = async () => {
     const { isAuthenticated, expiration } = await authMediator.userTokenRefresh();
+
     if (!isAuthenticated) {
       // If user no longer has valid JWT, sign user out
       setSessionEverywhere();
