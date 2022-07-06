@@ -1,10 +1,13 @@
 package api
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -27,6 +30,34 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
+type ForeUpAuthResponse struct {
+	Data struct {
+		Response_type string   `json:"type"`
+		Id            string   `json:"id"`
+		Attributes    []string `json:"attributes"`
+	}
+}
+
+func (f ForeUpAuthResponse) TextOutput() string {
+	p := fmt.Sprintf(
+		"ResponseType:  %v \n Id: %v \n",
+		f.Data.Response_type, f.Data.Id)
+	return p
+}
+
+func authenticateJwt(tknStr string) bool {
+	var jwtKey = []byte(m.MustGetenv("JWT"))
+
+	claims := &Claims{}
+
+	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+	if err != nil {
+		return false
+	}
+	return tkn.Valid
+}
 func generateJwt(email string) (string, time.Time) {
 	var jwtKey = []byte(m.MustGetenv("JWT"))
 
@@ -260,6 +291,50 @@ func (s *AuthenticatorServiceServer) UserTokenRefresh(ctx context.Context, in *a
 	return &authv1.UserTokenRefreshResponse{
 		Jwt:        tokenString,
 		Expiration: expirationTime.Format(time.UnixDate),
+		Status: &status.Status{
+			Code: int32(code.Code_OK),
+		},
+	}, nil
+}
+
+func (s *AuthenticatorServiceServer) ForeUpAuthentication(ctx context.Context, in *authv1.ForeUpAuthenticationRequest) (*authv1.ForeUpAuthenticationResponse, error) {
+	isValid := authenticateJwt(in.ScheduleGolfJwt)
+
+	if !isValid {
+		return &authv1.ForeUpAuthenticationResponse{
+			Status: &status.Status{
+				Code: int32(code.Code_UNAUTHENTICATED),
+			},
+		}, nil
+	}
+
+	postBody, _ := json.Marshal(map[string]string{
+		"email":    in.Email,
+		"password": in.Password,
+	})
+
+	// Mock Api foreup
+	URL := "https://private-anon-6d096aca80-foreup.apiary-mock.com/api_rest/index.php/tokens"
+
+	resp, err := http.Post(URL, "application/json", bytes.NewBuffer(postBody))
+
+	if err != nil {
+		log.Printf("An Error Occured %v", err)
+	}
+
+	defer resp.Body.Close()
+
+	var foreUpAuthResponse ForeUpAuthResponse
+
+	if err := json.NewDecoder(resp.Body).Decode(&foreUpAuthResponse); err != nil {
+		log.Print(err)
+	}
+
+	log.Print(foreUpAuthResponse.Data.Id)
+
+	// Save Token
+
+	return &authv1.ForeUpAuthenticationResponse{
 		Status: &status.Status{
 			Code: int32(code.Code_OK),
 		},

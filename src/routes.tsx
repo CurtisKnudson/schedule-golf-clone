@@ -16,7 +16,7 @@ export const appRoutes: Routes[] = [
     name: 'splat route',
     path: '*',
     // TODO: Need to create an actual splat page
-    element: <div>splat route</div>,
+    element: <div>Err! You tried to access a route that does not exist</div>,
   },
   {
     id: 2,
@@ -53,5 +53,11 @@ export const appRoutes: Routes[] = [
     name: 'Settings',
     path: '/settings',
     element: <Settings />,
+  },
+  {
+    id: 7,
+    name: 'jenna',
+    path: '/dashboard/web-analytics',
+    element: <div>Some analytics I will code in</div>,
   },
 ];
