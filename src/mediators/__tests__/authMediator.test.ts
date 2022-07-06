@@ -43,7 +43,7 @@ describe('Auth Mediator', () => {
     expect(expiration).toBeTruthy();
   });
 
-  it('UserRefreshToken', async () => {
+  it('UserTokenRefresh', async () => {
     const req = await authMediator.userTokenRefresh();
 
     const { isAuthenticated, expiration } = req;
