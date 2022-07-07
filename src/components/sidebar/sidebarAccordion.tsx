@@ -6,7 +6,6 @@ import { sidebarItems } from 'components/sidebar/constant/sidebarItems';
 import { NestedSidebarItem } from 'components/sidebar/nestedSidebarItem';
 import { useEffect } from 'react';
 import { useSession } from 'providers/sessionProvider';
-import { ArrowRightIcon } from 'icons';
 
 export const SidebarAccordion = () => {
   const { isAccordionOpen, setIsAccordionOpen, hovered } = useSidebarState();
