@@ -1,10 +1,11 @@
+// Node Modules
+import { useEffect } from 'react';
 // Providers
 import { useSidebarState } from 'components/sidebar/sidebarProvider';
-
 // Components
 import { sidebarItems } from 'components/sidebar/constant/sidebarItems';
 import { NestedSidebarItem } from 'components/sidebar/nestedSidebarItem';
-import { useEffect } from 'react';
+
 import { useSession } from 'providers/sessionProvider';
 
 export const SidebarAccordion = () => {
