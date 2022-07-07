@@ -9,9 +9,13 @@ module.exports = {
       colors: {
         green: {
           150: 'rgb(239,253,244)',
+          650: 'rgb(41, 95,61)',
           850: '#336950',
           1000: 'rgb(33,78,52)',
         },
+      },
+      width: {
+        accordion: '256px',
       },
     },
   },
@@ -27,6 +31,15 @@ module.exports = {
           overflow: 'hidden',
           transition: 'max-height 0.2s ease-out',
           height: 'auto',
+        },
+        '.sidebarAccordion': {
+          overflow: 'hidden',
+          transition: 'max-width 0.2s ease-out',
+          width: '256px',
+          left: '64px',
+        },
+        '.sidebarDimensions': {
+          minWidth: '64px',
         },
       };
 

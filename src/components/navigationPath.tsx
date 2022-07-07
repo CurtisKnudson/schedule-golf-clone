@@ -6,6 +6,7 @@ import { HomeIcon, ArrowRightIcon } from 'icons';
 
 export const NavigationPath = () => {
   const breadcrumbs = useBreadcrumbs();
+
   return (
     <div>
       <div className="flex mt-8 h-4">

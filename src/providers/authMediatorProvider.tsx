@@ -1,4 +1,5 @@
 // Node Modules
+import React, { createContext, useEffect, useState } from 'react';
 // Adapter
 import { AuthGrpcAdapter } from 'adapters/authGrpcAdapter';
 // Hooks
@@ -7,7 +8,6 @@ import makeContextHook from 'hooks/makeContextHooks';
 import { AuthMediator } from 'mediators/authMediator';
 // Types
 import { AuthMediatorInterface } from 'mediators/types/authMediatorInterface';
-import React, { createContext, useEffect, useState } from 'react';
 
 const AuthMediatorContext = createContext<AuthMediatorInterface | undefined>(undefined);
 

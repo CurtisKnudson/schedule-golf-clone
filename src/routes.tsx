@@ -6,6 +6,7 @@ import { SignUp } from 'pages/authentication/signUp';
 import { Home } from 'pages/home';
 import { Dashboard } from 'pages/dashboard';
 import { Settings } from 'pages/settings';
+import { Analytics } from 'pages/analytics';
 
 // Types
 import { Routes } from 'types/routes';
@@ -45,19 +46,19 @@ export const appRoutes: Routes[] = [
   {
     id: 5,
     name: 'Dashboard',
-    path: '/dashboard',
+    path: '/dashboard/*',
     element: <Dashboard />,
   },
   {
     id: 6,
-    name: 'Settings',
-    path: '/settings',
-    element: <Settings />,
+    name: 'Analytics',
+    path: '/analytics/*',
+    element: <Analytics />,
   },
   {
     id: 7,
-    name: 'jenna',
-    path: '/dashboard/web-analytics',
-    element: <div>Some analytics I will code in</div>,
+    name: 'Settings',
+    path: '/settings/*',
+    element: <Settings />,
   },
 ];
