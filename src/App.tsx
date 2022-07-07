@@ -14,8 +14,8 @@ import { NavigationPath } from 'components/navigationPath';
 const App = () => {
   return (
     <RequireAuth>
-      <div className="h-1 bg-green-1000">
-        <div className="flex">
+      <>
+        <div className="flex max-h-screen overflow-hidden">
           <Sidebar />
           <div className="w-full my-2 ml-8 mr-8">
             <NavigationPath />
@@ -36,7 +36,7 @@ const App = () => {
         </div>
 
         <ToastContainer />
-      </div>
+      </>
     </RequireAuth>
   );
 };

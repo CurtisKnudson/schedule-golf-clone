@@ -1,56 +1,64 @@
 /// <reference types="vite-plugin-svgr/client" />
 // Node Modules
-import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Icons
-import { HomeIcon, SettingsIcon, DashboardIcon } from 'icons';
+import { SettingsIcon } from 'icons';
 import { ReactComponent as GolfBallHeaderIcon } from 'public/golf-svg.svg';
-import { SidebarItem } from 'components/sidebar/sidebarItem';
 
-const sidebarItems = [
-  {
-    name: 'Home',
-    path: '/',
-    icon: <HomeIcon className="text-gray-200 h-auto w-6" />,
-  },
-  {
-    name: 'Dashboard',
-    path: '/dashboard',
-    icon: <DashboardIcon className=" text-gray-200 h-auto w-6" />,
-  },
-  {
-    name: 'Settings',
-    path: '/settings',
-    icon: <SettingsIcon className="text-gray-200 h-auto w-6" />,
-  },
-];
+// Constants
+import { sidebarItems } from 'components/sidebar/constant/sidebarItems';
+
+// Components
+import { SidebarAccordion } from 'components/sidebar/sidebarAccordion';
+import { SidebarItem } from 'components/sidebar/sidebarItem';
+// Provider
+import SidebarStateProvider from 'components/sidebar/sidebarProvider';
 
 export const Sidebar = () => {
-  const { pathname } = useLocation();
-  const [selected, setSelected] = useState(pathname);
-  // TODO: Need to check for nested routes properly
-
-  useEffect(() => {
-    setSelected(pathname);
-  }, [pathname]);
-
   return (
-    <div>
-      <div className="bg-green-1000 h-screen min-h-screen rounded w-16 flex flex-col items-center">
-        <div className="mx-4 my-8">
-          <Link to="/">
-            <GolfBallHeaderIcon />
-          </Link>
+    <SidebarStateProvider>
+      <div className="flex">
+        <div className="bg-green-1000 w-16 flex flex-col items-center sidebarDimensions min-h-screen h-screen">
+          <div className="mx-4 my-8">
+            <Link to="/">
+              <GolfBallHeaderIcon />
+            </Link>
+          </div>
+          <div className="flex flex-col justify-between h-full">
+            <div className="flex flex-col center-all">
+              {sidebarItems.map((item) => {
+                if (item.path === '/settings') {
+                  return;
+                }
+                return (
+                  <SidebarItem
+                    path={item.path}
+                    key={item.name}
+                    nestedItems={item.nestedItems ? true : false}
+                    icon={item.icon}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="flex-col center-all mb-8">
+              <SidebarItem
+                path="/settings"
+                nestedItems={false}
+                icon={<SettingsIcon className="text-gray-200 h-auto w-6" />}
+              />
+              <hr className="my-4 opacity-30 w-full text-gray-500" />
+              <img
+                className="rounded-full h-10 w-10 mt-2"
+                src="https://picsum.photos/200"
+                alt=""
+              />
+            </div>
+          </div>
         </div>
-        {sidebarItems.map((item) => {
-          return (
-            <SidebarItem path={item.path} key={item.name} selected={selected}>
-              {item.icon}
-            </SidebarItem>
-          );
-        })}
+        <SidebarAccordion />
       </div>
-    </div>
+    </SidebarStateProvider>
   );
 };
