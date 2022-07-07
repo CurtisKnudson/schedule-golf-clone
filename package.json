@@ -9,7 +9,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "format": "yarn prettier ./src -c",
-    "lint": "yarn eslint ./src",
+    "lint": "yarn eslint ./src --max-warnings=0",
     "type-check": "tsc"
   },
   "dependencies": {
