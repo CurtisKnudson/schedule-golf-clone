@@ -2,7 +2,8 @@
 import { Route, Routes } from 'react-router-dom';
 // Components
 import { ComponentHeader } from 'components/componentHeader';
-import { dashboardRoutes } from './routes';
+// Routes
+import { dashboardRoutes } from 'pages/dashboard/routes';
 
 export const Dashboard = () => {
   return (
