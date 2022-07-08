@@ -34,31 +34,31 @@ export const appRoutes: Routes[] = [
   {
     id: 3,
     name: 'Login',
-    path: '/login',
+    path: 'login',
     element: <Login />,
   },
   {
     id: 4,
     name: 'SignUp',
-    path: '/signup',
+    path: 'signup',
     element: <SignUp />,
   },
   {
     id: 5,
     name: 'Dashboard',
-    path: '/dashboard/*',
+    path: 'dashboard/*',
     element: <Dashboard />,
   },
   {
     id: 6,
     name: 'Analytics',
-    path: '/analytics/*',
+    path: 'analytics/*',
     element: <Analytics />,
   },
   {
     id: 7,
     name: 'Settings',
-    path: '/settings/*',
+    path: 'settings/*',
     element: <Settings />,
   },
 ];
