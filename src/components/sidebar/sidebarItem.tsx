@@ -1,7 +1,9 @@
 // Node Modules
 import { Link } from 'react-router-dom';
+// Utils
 import { keyDownHelper } from 'utils/onKeyDown';
-import { useSidebarState } from './sidebarProvider';
+// Provider
+import { useSidebarState } from 'components/sidebar/sidebarProvider';
 
 export interface SidebarItemProps {
   icon: JSX.Element;
