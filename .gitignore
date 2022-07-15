@@ -34,3 +34,7 @@ bin
 # Env vars
 .env
 .env.local
+
+# Go vender
+vendor
+vendor/*

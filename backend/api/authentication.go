@@ -133,30 +133,6 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 	newUser.email = in.GetEmail()
 	newUser.hash = hashAndSalt([]byte(in.GetPassword()))
 
-	// Create Schema/Database for Company here ??
-
-	// Drop Table before creating it while in production
-	db.Query(`DROP TABLE schedule_golf.schedule_golf_users`)
-
-	createTableQuery := `CREATE TABLE IF NOT EXISTS schedule_golf.schedule_golf_users
-	(
-		sql_id INT PRIMARY KEY AUTO_INCREMENT INVISIBLE,
-		user_id VARCHAR(36),
-		company_name VARCHAR(255),
-	 	first_name VARCHAR(255),
-		last_name VARCHAR(255),
-		email VARCHAR(255),
-		hash CHAR(60)
-	)`
-
-	res, err := db.Query(createTableQuery)
-
-	if err != nil {
-		fmt.Printf("There was an error calling createTableQuery: %v", err)
-	}
-
-	defer res.Close()
-
 	insertUserQuery := `INSERT INTO schedule_golf.schedule_golf_users
 	(user_id, company_name, first_name, last_name, email, hash)
 	VALUES(?,?,?,?,?,?)`
