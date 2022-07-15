@@ -5,8 +5,8 @@ import { Link, Navigate } from 'react-router-dom';
 import { useAuthMediator } from 'apps/admin/providers/authMediatorProvider';
 import { useSession } from 'apps/admin/providers/sessionProvider';
 // Types
-import { NewUser } from 'types/user';
-import { Session } from 'types/session';
+import { NewUser } from 'apps/admin/types/user';
+import { Session } from 'apps/admin/types/session';
 
 export const SignUp = () => {
   const authMediator = useAuthMediator();

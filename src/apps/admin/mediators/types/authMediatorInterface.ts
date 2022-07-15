@@ -1,5 +1,5 @@
 // Types
-import { NewUser, User } from 'types/user';
+import { NewUser, User } from 'apps/admin/types/user';
 import { RefreshResponse } from 'apps/admin/adapters/types/authGrpcAdapter';
 import { LoginCredentials } from 'apps/admin/types/loginCredentials';
 

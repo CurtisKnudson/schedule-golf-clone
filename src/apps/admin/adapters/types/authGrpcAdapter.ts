@@ -6,8 +6,8 @@ import {
 } from 'gen/proto/ts/schedule_golf/authentication/v1alpha1/authentication';
 
 // Types
-import { NewUser } from 'types/user';
-import { LoginCredentials } from 'apps/clubhouse/pages/authentication/types/loginCredentials';
+import { NewUser } from 'apps/admin/types/user';
+import { LoginCredentials } from 'apps/admin/types/loginCredentials';
 
 export interface RefreshResponse {
   isAuthenticated: boolean;

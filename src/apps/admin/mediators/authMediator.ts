@@ -6,7 +6,7 @@ import {
   ForeUpAuthenticationRequest,
 } from 'apps/admin/mediators/types/authMediatorInterface';
 import { LoginCredentials } from 'apps/admin/types/loginCredentials';
-import { NewUser } from 'types/user';
+import { NewUser } from 'apps/admin/types/user';
 // Adapter
 import { AuthGrpcAdapter } from 'apps/admin/adapters/types/authGrpcAdapter';
 
