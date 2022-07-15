@@ -11,11 +11,8 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
 
   if (!session.user || !session.isValidToken) {
-    if (location.pathname === '/signup') {
+    if (location.pathname === '/admin/signup') {
       return <SignUp />;
-    }
-    if (window.location.pathname !== '/') {
-      window.location.pathname = '/';
     }
     return <Login />;
   }

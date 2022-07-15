@@ -21,7 +21,8 @@ export const Sidebar = () => {
       <div className="flex">
         <div className="bg-green-1000 w-16 flex flex-col items-center sidebarDimensions min-h-screen h-screen">
           <div className="mx-4 my-8">
-            <Link to="/">
+            {/* TODO//Eventually we want the golfball logo to link to their clubhouse booking page */}
+            <Link to="/admin">
               <GolfBallHeaderIcon />
             </Link>
           </div>
@@ -44,7 +45,7 @@ export const Sidebar = () => {
 
             <div className="flex-col center-all mb-8">
               <SidebarItem
-                path="/settings"
+                path="/admin/settings"
                 nestedItems={false}
                 icon={<SettingsIcon className="text-gray-200 h-auto w-6" />}
               />

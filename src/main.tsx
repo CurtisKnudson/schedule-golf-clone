@@ -6,17 +6,12 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 // Components
 import App from 'App';
-// Providers
-import AuthMediatorProvider from 'apps/admin/providers/authMediatorProvider';
-import SessionProvider from 'apps/admin/providers/sessionProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <SessionProvider>
-        <App />
-      </SessionProvider>
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
 );

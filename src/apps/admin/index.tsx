@@ -12,8 +12,8 @@ import SessionProvider from 'apps/admin/providers/sessionProvider';
 
 export const Clubhouse = () => {
   return (
-    <SessionProvider>
-      <AuthMediatorProvider>
+    <AuthMediatorProvider>
+      <SessionProvider>
         <RequireAuth>
           <>
             <div className="flex max-h-screen overflow-hidden">
@@ -37,7 +37,7 @@ export const Clubhouse = () => {
             </div>
           </>
         </RequireAuth>
-      </AuthMediatorProvider>
-    </SessionProvider>
+      </SessionProvider>
+    </AuthMediatorProvider>
   );
 };

@@ -5,6 +5,7 @@ import { SignUp } from 'apps/admin/pages/authentication/signUp';
 import { Dashboard } from 'apps/admin/pages/dashboard';
 import { Analytics } from 'apps/admin/pages/analytics';
 import { Settings } from 'apps/admin/pages/settings';
+import { Home } from 'apps/admin/pages/home';
 
 // All Routes relative to /clubouse/*
 export const adminRoutes: Routes[] = [
@@ -16,30 +17,36 @@ export const adminRoutes: Routes[] = [
   },
   {
     id: 2,
-    name: 'Login',
-    path: '/login',
-    element: <Login />,
+    name: 'Home',
+    isIndex: true,
+    element: <Home />,
   },
   {
     id: 3,
+    name: 'Login',
+    path: 'login',
+    element: <Login />,
+  },
+  {
+    id: 4,
     name: 'SignUp',
     path: 'signup',
     element: <SignUp />,
   },
   {
-    id: 4,
+    id: 5,
     name: 'Dashboard',
     path: 'dashboard/*',
     element: <Dashboard />,
   },
   {
-    id: 5,
+    id: 6,
     name: 'Analytics',
     path: 'analytics/*',
     element: <Analytics />,
   },
   {
-    id: 6,
+    id: 7,
     name: 'Settings',
     path: 'settings/*',
     element: <Settings />,

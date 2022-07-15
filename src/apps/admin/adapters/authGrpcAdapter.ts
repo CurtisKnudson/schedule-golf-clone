@@ -2,12 +2,12 @@
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 // Types
 import { LoginCredentials } from 'apps/admin/types/loginCredentials';
-import { NewUser } from 'types/user';
+import { NewUser } from 'apps/admin/types/user';
 import {
   AuthGrpcAdapter as AuthGrpcAdapterInterface,
   RefreshResponse,
 } from 'apps/admin/adapters/types/authGrpcAdapter';
-import { GrpcCode } from 'types/code';
+import { GrpcCode } from 'types/googleCodes';
 // Constants
 import { apiUrl } from 'apps/admin/constants/apiUrl';
 // Protos

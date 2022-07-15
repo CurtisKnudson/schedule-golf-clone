@@ -6,12 +6,14 @@ import { HomeIcon, ArrowRightIcon } from 'icons';
 
 export const NavigationPath = () => {
   const breadcrumbs = useBreadcrumbs();
-
   return (
     <div>
       <div className="flex mt-8 h-4">
         {breadcrumbs.map((obj, index) => {
           if (obj.key === '/') {
+            return;
+          }
+          if (obj.key === '/admin') {
             return (
               <div key={index} className="flex center-all">
                 <Link to={obj.key}>

@@ -4,7 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // Types
 import { LoginCredentials } from 'apps/admin/types/loginCredentials';
-import { Session } from 'types/session';
+import { Session } from 'apps/admin/types/session';
 // Providers
 import { useSession } from 'apps/admin/providers/sessionProvider';
 // Mediators

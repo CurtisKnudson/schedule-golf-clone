@@ -1,5 +1,5 @@
 // Types
-import { Session } from 'types/session';
+import { Session } from 'apps/admin/types/session';
 
 export const setLocalStorageSession = (session: Session) => {
   localStorage.removeItem('session');

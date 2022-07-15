@@ -1,4 +1,5 @@
 // Node Modules
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // Providers
 import { useSession } from 'apps/admin/providers/sessionProvider';
@@ -18,7 +19,7 @@ export const Home = () => {
       <ComponentHeader header="Home" />
       <div
         role="button"
-        className="cursor-pointer mt-8"
+        className="cursor-pointer m-8 border w-32 rounded center-all hover:bg-slate-200"
         tabIndex={0}
         onClick={handleSignout}
         onKeyDown={(e) => {
@@ -30,6 +31,12 @@ export const Home = () => {
       >
         SignOut
       </div>
+      <Link
+        to="/"
+        className="m-8 cursor-pointer border w-40 rounded center-all hover:bg-gray-400"
+      >
+        Go to Client
+      </Link>
     </div>
   );
 };

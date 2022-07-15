@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom';
 // Hooks
 import makeContextHook from 'hooks/makeContextHooks';
 // Types
-import { Session } from 'types/session';
+import { Session } from 'apps/admin/types/session';
 // Utils
-import { getLocalStorageSession, setLocalStorageSession } from 'utils/handleLocalStorage';
+import {
+  getLocalStorageSession,
+  setLocalStorageSession,
+} from 'apps/admin/utils/handleLocalStorageSession';
 // Providers
 import { useAuthMediator } from 'apps/admin/providers/authMediatorProvider';
 
@@ -51,7 +54,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
       Cookies.remove('token');
       localStorage.removeItem('session');
       window.location.reload();
-      navigate('/');
+      navigate('/admin/login');
       return;
     }
     setLocalStorageSession(sessionParam);
@@ -61,7 +64,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (path) {
-      navigate(`/${path}`);
+      navigate(`/admin/${path}`);
     }
 
     if (reload) {

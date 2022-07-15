@@ -3,11 +3,12 @@ import { Outlet } from 'react-router-dom';
 
 // Apps
 import { Clubhouse } from 'apps/admin';
+import { Client } from 'apps/client';
 
 // Types
 import { Routes } from 'types/routes';
 
-export const clientRoutes: Routes[] = [
+export const appRoutes: Routes[] = [
   {
     id: 1,
     name: 'splat route',
@@ -25,12 +26,12 @@ export const clientRoutes: Routes[] = [
     id: 3,
     name: 'home',
     isIndex: true,
-    element: <div>I am the schedule.golf homepage</div>,
+    element: <Client />,
   },
   {
     id: 4,
     name: 'Clubhouse',
-    path: '/admin/*',
+    path: 'admin/*',
     element: <Clubhouse />,
   },
 ];

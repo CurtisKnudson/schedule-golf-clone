@@ -21,14 +21,15 @@ export interface SidebarItem {
 export const sidebarItems: SidebarItem[] = [
   {
     name: 'Home',
-    path: '/',
+    path: '/admin',
     icon: <HomeIcon className="h-auto w-6" />,
   },
   {
     name: 'Dashboard',
-    path: '/dashboard',
+    path: '/admin/dashboard',
     icon: <DashboardIcon className="h-auto w-6" />,
     nestedItems: [
+      // nested routes are relative to the parent path.. /admin/dashboard/overview
       {
         name: 'Overview',
         path: '/overview',
@@ -63,7 +64,7 @@ export const sidebarItems: SidebarItem[] = [
   },
   {
     name: 'Analytics',
-    path: '/analytics',
+    path: 'analytics',
     icon: <AnalyticsIcon className="h-auto w-6" />,
   },
 ];
