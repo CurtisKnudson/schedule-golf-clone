@@ -3,41 +3,21 @@ import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 // CSS
 import 'react-toastify/dist/ReactToastify.css';
-//Routes
-import { appRoutes } from 'routes';
-// Layout
-import { RequireAuth } from 'layout/requireAuth';
-// Components
-import { Sidebar } from 'components/sidebar';
-import { NavigationPath } from 'components/navigationPath';
+import { clientRoutes } from 'routes';
 
 const App = () => {
   return (
-    <RequireAuth>
-      <>
-        <div className="flex max-h-screen overflow-hidden">
-          <Sidebar />
-          <div className="w-full my-2 ml-8 mr-8">
-            <NavigationPath />
-            <Routes>
-              {appRoutes.map((mappedRoute) => {
-                const { id, name, path, element, isIndex } = mappedRoute;
-                return (
-                  <Route
-                    key={`${id}${name}`}
-                    path={path}
-                    index={isIndex}
-                    element={element}
-                  />
-                );
-              })}
-            </Routes>
-          </div>
-        </div>
-
-        <ToastContainer />
-      </>
-    </RequireAuth>
+    <>
+      <Routes>
+        {clientRoutes.map((mappedRoute) => {
+          const { id, name, path, element, isIndex } = mappedRoute;
+          return (
+            <Route key={`${id}${name}`} path={path} index={isIndex} element={element} />
+          );
+        })}
+      </Routes>
+      <ToastContainer />
+    </>
   );
 };
 
