@@ -16,7 +16,7 @@ cache:
 stages:
   - UI
 
-install-dependencies-ui:
+build-lint-coverage-test-format:
   interruptible: true
   stage: UI
   script:
