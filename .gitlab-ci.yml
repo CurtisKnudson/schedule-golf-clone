@@ -16,6 +16,7 @@ cache:
 stages:
   - Install
   - Lint
+  - Coverage
   - Format
   - Test
   - Build
@@ -31,6 +32,12 @@ lint-ui:
   stage: Lint
   script:
     - yarn lint
+
+coverage-ui:
+  interruptible: true
+  stage: Coverage
+  script:
+    - yarn coverage
 
 format-ui:
   interruptible: true
