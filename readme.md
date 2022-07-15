@@ -2,7 +2,7 @@
 
 #### World class golf booking software
 
-[![Midgard Marketing](https://i.imgur.com/4X0AaB2.png)](https://midgard.marketing)
+[![Midgard Marketing](https://i.imgur.com/HeynSu0.jpg)](https://midgard.marketing)
 
 Schedule Golf is a state of the art tee-time software for clubhouses and customers alike.
 
