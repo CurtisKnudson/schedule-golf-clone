@@ -162,8 +162,6 @@ func (s *AuthenticatorServiceServer) CreateNewUser(ctx context.Context, in *auth
 
 func (s *AuthenticatorServiceServer) UserLogin(ctx context.Context, in *authv1.UserLoginRequest) (*authv1.UserLoginResponse, error) {
 
-	in.GetEmail()
-
 	db, err := m.InitTCPConnectionPool()
 
 	if err != nil {
