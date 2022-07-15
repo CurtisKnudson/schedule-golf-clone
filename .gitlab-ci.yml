@@ -37,7 +37,7 @@ coverage-ui:
   interruptible: true
   stage: Coverage
   script:
-    - yarn coveragte
+    - yarn coverage
 
 format-ui:
   interruptible: true
