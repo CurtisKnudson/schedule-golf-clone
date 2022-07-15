@@ -21,33 +21,9 @@ install-dependencies-ui:
   stage: UI
   script:
     - yarn install
-
-lint-ui:
-  interruptible: true
-  stage: UI
-  script:
     - yarn lint
-
-coverage-ui:
-  interruptible: true
-  stage: UI
-  script:
     - yarn coverage
-
-format-ui:
-  interruptible: true
-  stage: UI
-  script:
     - yarn format
-
-unit-test-ui:
-  interruptible: true
-  stage: UI
-  script:
     - yarn test
-
-build-ui:
-  interruptible: true
-  stage: UI
-  script:
     - yarn build
+  
