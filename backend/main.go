@@ -8,14 +8,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	"gitlab.com/schedule-golf/nicklaus/backend/api"
-	variables "gitlab.com/schedule-golf/nicklaus/backend/environment"
 	"gitlab.com/schedule-golf/nicklaus/backend/middleware"
 
 	"google.golang.org/grpc"
 )
 
 func main() {
-	variables.InitEnv()
 	port := os.Getenv("PORT")
 
 	if port == "" {
