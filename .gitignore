@@ -30,3 +30,7 @@ dist-ssr
 backend/environment/variables.go
 backend/tmp
 bin
+
+# Env vars
+.env
+.env.local
