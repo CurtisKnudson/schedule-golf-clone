@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Ignore Coverage folder. To view reports run 'Yarn Coverage'. 
+# Ignore Coverage folder. To view reports run 'yarn coverage'. 
 coverage
 node_modules
 dist
@@ -35,6 +35,6 @@ bin
 .env
 .env.local
 
-# Go vender
+# Go vendor
 vendor
 vendor/*
