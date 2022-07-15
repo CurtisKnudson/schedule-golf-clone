@@ -30,3 +30,37 @@ cd backend
 go mod tidy
 air
 ```
+
+## Local DB
+Running a local db is easy with docker compose
+
+If needed, docker compose can be installed [here](https://docs.docker.com/compose/install/)
+
+Before running the db, there are a few env vars which need to be set. 
+This can easily be done by creating a .env.local file which has the following
+vars
+
+```
+MYSQL_DATABASE=schedule_golf
+MYSQL_RW_USER=rwuser
+MYSQL_RW_USER_PASSWORD=testuserpassword
+MYSQL_ROOT_PASSWORD=testrootpassword
+MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+```
+
+To export these vars in your current shell, simply run 
+```shell
+source scripts/setlocalenv.sh
+```
+
+Then create and run the db
+```shell
+docker-compose -f docker-compose-mysql.yml up -d
+```
+
+This will create the container in the background
+To kill the running db container, use
+```shell
+docker-compose -f docker-compose-mysql.yml down -v
+```

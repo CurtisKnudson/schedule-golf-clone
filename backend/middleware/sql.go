@@ -20,11 +20,11 @@ func MustGetenv(k string) string {
 
 func InitTCPConnectionPool() (*sql.DB, error) {
 	var (
-		dbUser    = MustGetenv("CLOUDSQL_USER")     // e.g. 'my-db-user'
-		dbPwd     = MustGetenv("CLOUDSQL_PASSWORD") // e.g. 'my-db-password'
-		dbTCPHost = MustGetenv("CLOUDSQL_TCPHOST")  // e.g. '127.0.0.1'
-		dbPort    = MustGetenv("CLOUDSQL_PORT")     // e.g. '3306'
-		dbName    = MustGetenv("CLOUDSQL_DBNAME")   // e.g. 'my-database'
+		dbUser    = MustGetenv("MYSQL_RW_USER")          // e.g. 'my-db-user'
+		dbPwd     = MustGetenv("MYSQL_RW_USER_PASSWORD") // e.g. 'my-db-password'
+		dbTCPHost = MustGetenv("MYSQL_HOST")             // e.g. '127.0.0.1'
+		dbPort    = MustGetenv("MYSQL_PORT")             // e.g. '3306'
+		dbName    = MustGetenv("MYSQL_DATABASE")         // e.g. 'my-database'
 	)
 
 	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPwd, dbTCPHost, dbPort, dbName)
